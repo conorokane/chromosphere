@@ -4,3 +4,5 @@ __lua__
 -- temp file just used for VSCode file inclusions
 #include src/chromosphere.lua
 #include src/vector2.lua
+#include src/plasma.lua
+#include src/player.lua

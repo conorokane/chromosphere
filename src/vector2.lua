@@ -41,6 +41,7 @@ function v2sub(v1, v2)
 	return v2make(v1.x - v2.x, v1.y - v2.y)
 end
 
+-- rotate a vector by an angle (angle is in turns 0 to 1)
 function v2rotate(v, angle)
 	local x2 = cos(angle) * v.x - sin(angle) * v.y
 	local y2 = sin(angle) * v.x + cos(angle) * v.y
@@ -106,4 +107,8 @@ end
 
 function lerp(a,b,t) 
 	return a+(b-a)*t 
+end
+
+function rndrange(low, high)
+	return (low + rnd(high - low))
 end
