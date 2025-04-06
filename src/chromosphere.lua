@@ -3,6 +3,8 @@ function _init()
 	fetch("src/0.pal"):poke(0x5000)
 
 	bgcolor = 20
+	screenCenter = { x = 240, y = 135 }
+	fleetCenter = { x = 70, y = 135 }
 
 	initPlayer()
 	initGame()

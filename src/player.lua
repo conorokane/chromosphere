@@ -7,7 +7,7 @@ function initPlayer()
 	player = {pos = {x = 240, y = 135}, speed = 3, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false}
 
 	-- magnetic fields
-	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 0.003, 0.0035, 0.0045 } }
+	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 0.5, 1, 2 } }
 
 	for i = 0, magfield.steps - 1 do
 		magfield.positions[i] = { x = player.pos.x, y = player.pos.y }

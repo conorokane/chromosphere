@@ -4,35 +4,35 @@ version 2
 :: gfx/
 :: gfx/0.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
-NC0wNiAwNjo1NTowNyIscmV2aXNpb249MjA4XV1sejQA2gAAAGMyAADzIXtbMF09e2JtcD1weHUA
+NC0wNiAxMzo1NDoxNyIscmV2aXNpb249Mjg4XV1sejQA2gAAAGMyAADzIXtbMF09e2JtcD1weHUA
 QyAQEATwVgcQB8AX0BfABxAH8FYsZmxhZ3M9MCxwYW5feAgA23k9MCx6b29tPTEyfSw-ANEGNpB2
 YJZAtjC2INYQAgDPILYwtkCWYHaQNvAGTwAeH-AyAP8YuVA5oFmAeWCZQLkwAgCfQJlgeYBZoDlQ
 gwAe-wcUfx1gnkC_IN4A-jAA3iC_QJ5gfvAU-AAfDzIA--------------------------------
 --------------------------------FFA9MTJ9fQ==
 :: gfx/.info.pod
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-NC0wNiAwNjo1NTowOCJdXQ==
+NC0wNiAxMzo1NDoxNyJdXQ==
 :: map/
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
-NC0wNiAwNjo1NTowNyIscmV2aXNpb249MTcyXV1sejQAaAAAAFgQAADwCHt7Ym1wPXVzZXJkYXRh
+NC0wNiAxMzo1NDoxNyIscmV2aXNpb249MjUyXV1sejQAaAAAAFgQAADwCHt7Ym1wPXVzZXJkYXRh
 KCJpMTYiLDMyAwAvIjABAP--------------------vxCCIpLGhpZGRlbj1mYWxzZSxwYW5feD0w
 CADSeT0wLHRpbGVfaD0xNgoAEHcKAIB6b29tPTF9fQ==
 :: map/.info.pod
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-NC0wNiAwNjo1NTowOCJdXQ==
+NC0wNiAxMzo1NDoxNyJdXQ==
 :: sfx/
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
-NC0wNiAwNjo1NTowNyIscmV2aXNpb249MTcyXV1sejQAoAAAAAsKAAD-MHB4dQADKAAABAAED0AQ
+NC0wNiAxMzo1NDoxNyIscmV2aXNpb249MjUyXV1sejQAoAAAAAsKAAD-MHB4dQADKAAABAAED0AQ
 Ag4AAaABIAKgDgAPEAAN8MoBAgNADw_QBAUGB0AMkAgJCgtADJAPDA8NDw4MQAzw-wEA6-8nqgEQ
 Bg8gEAEgASAB8AACEAIOEAEgDyEgATAPQPDDDygP--DGD-gKD-8PgA-3Dw0B8AkBEAYOMAD-----
 -70f-wEArM-ID0AADxBA--_w8P8BAP-qUP----8p
 :: sfx/.info.pod
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-NC0wNiAwNjo1NTowOCJdXQ==
+NC0wNiAxMzo1NDoxNyJdXQ==
 :: main.lua
---[[pod_format="raw",created="2025-04-03 06:53:24",modified="2025-04-06 06:55:07",revision=192]]
+--[[pod_format="raw",created="2025-04-03 06:53:24",modified="2025-04-06 13:54:17",revision=272]]
 cd("/chromosphere")
 include ("src/chromosphere.lua")
 include ("src/vector2.lua")
@@ -40,7 +40,7 @@ include ("src/plasma.lua")
 include ("src/player.lua")
 :: .info.pod
 b64$LS1bW3BvZCxhdXRob3I9Im1vbm9SQUlMIixjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2
-Iixtb2RpZmllZD0iMjAyNS0wNC0wNiAwNjo1NTowOCIsbm90ZXM9IiIscnVudGltZT0xNyx0aXRs
+Iixtb2RpZmllZD0iMjAyNS0wNC0wNiAxMzo1NDoxNyIsbm90ZXM9IiIscnVudGltZT0xNyx0aXRs
 ZT0iQ2hyb21vc3BoZXJlIix2ZXJzaW9uPSIwLjEiLHdvcmtzcGFjZXM9e3tsb2NhdGlvbj0ibWFp
 bi5sdWEjMSIsd29ya3NwYWNlX2luZGV4PTF9LHtsb2NhdGlvbj0iZ2Z4LzAuZ2Z4Iix3b3Jrc3Bh
 Y2VfaW5kZXg9Mn0se2xvY2F0aW9uPSJtYXAvMC5tYXAiLHdvcmtzcGFjZV9pbmRleD0zfSx7bG9j

@@ -41,8 +41,9 @@ function v2sub(v1, v2)
 	return v2make(v1.x - v2.x, v1.y - v2.y)
 end
 
--- rotate a vector by an angle (angle is in turns 0 to 1)
+-- rotate a vector by an angle (angle is in degrees)
 function v2rotate(v, angle)
+	angle /= 360
 	local x2 = cos(angle) * v.x - sin(angle) * v.y
 	local y2 = sin(angle) * v.x + cos(angle) * v.y
 	return {x = x2, y = y2}
@@ -58,8 +59,8 @@ end
 -- Zero is 3 o'clock, angles increase anti-clockwise, inputs are in degrees
 function v2randominrange(min, max)
 	if (min > max) min -= 360
-	min = min / 360
-	max = max / 360
+	min /= 360
+	max /= 360
 	local randomangle = min + rnd(abs(max - min))
 	return v2make(cos(randomangle), sin(randomangle))
 end
