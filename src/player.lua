@@ -97,8 +97,8 @@ function drawMagneticFields()
 			angle2 = atan2(vectorToPlayer2.x, vectorToPlayer2.y)
 		end
 
-		rovalPulse(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 39 - i \ 2, false)
-		rovalPulse(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 39 - i \ 2, true)
+		rovalPulse(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 41 - i \ 2, false)
+		rovalPulse(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 41 - i \ 2, true)
 	end
 	-- debug draw collider
 	-- for col in all(magfield.colliders) do
@@ -142,7 +142,7 @@ function rovalPulse (x, y, w, h, verts, angle, col, reverse)
 				if (frame \ 3 % verts == i) color = col + 3
 				if (-1 * frame \ 3 % verts == i) color = col - 3
 			end
-			color = clamp(color, 32, 39)
+			color = clamp(color, 32, 42)
 		end
 		line(x + pxrotated, y + pyrotated, color)
  	end

@@ -2,6 +2,8 @@ function _init()
 	-- load palette
 	fetch("src/0.pal"):poke(0x5000)
 
+	bgcolor = 20
+
 	initPlayer()
 	initGame()
 	initPlasma()
@@ -14,13 +16,12 @@ end
 
 function _update()
 	frame += 1
-	updatePlayer()
 	updatePlasma()
+	updatePlayer()
 end
 
 function _draw()
-	cls(21)
-	drawPlayer()
 	drawPlasma()
+	drawPlayer()
 end
 
