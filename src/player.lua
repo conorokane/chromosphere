@@ -4,7 +4,8 @@ function initPlayer()
 	stickRightSmoothed = { x = 0, y = 0 }
 	rightStickDecay = 0.2
 	rightStickDeadZoneSquared = 0.002
-	player = {pos = {x = 240, y = 135}, speed = 3, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false}
+	player = {pos = {x = 240, y = 135}, speed = 3, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10 }
+	player.currentHP = player.maxHP
 
 	-- magnetic fields
 	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 0.5, 1, 2 } }
@@ -84,36 +85,52 @@ function calculateMagneticFields()
 end
 
 function drawMagneticFields()
-	for i = 0, magfield.steps - 1 do
-		local angle = 0
-		local angle2 = 0
-		local lengthOfOffset = v2length(v2sub(player.pos, magfield.positions[i]))
-		local lengthOfOffset2 = v2length(v2sub(player.pos, magfield.positions2[i]))
-		if i > 0 then
-			local vectorToPlayer = v2sub(player.pos, magfield.positions[i])
-			local vectorToPlayer2 = v2sub(player.pos, magfield.positions2[i])
+	if v2squarelength(stickRightSmoothed) > rightStickDeadZoneSquared then
+		for i = 0, magfield.steps - 1 do
+			local angle = 0
+			local angle2 = 0
+			local lengthOfOffset = v2length(v2sub(player.pos, magfield.positions[i]))
+			local lengthOfOffset2 = v2length(v2sub(player.pos, magfield.positions2[i]))
+			if i > 0 then
+				local vectorToPlayer = v2sub(player.pos, magfield.positions[i])
+				local vectorToPlayer2 = v2sub(player.pos, magfield.positions2[i])
 
-			angle = atan2(vectorToPlayer.x, vectorToPlayer.y)
-			angle2 = atan2(vectorToPlayer2.x, vectorToPlayer2.y)
+				angle = atan2(vectorToPlayer.x, vectorToPlayer.y)
+				angle2 = atan2(vectorToPlayer2.x, vectorToPlayer2.y)
+			end
+
+			-- pulsing field lines
+			-- rovalPulse(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 41 - i \ 2, false)
+			-- rovalPulse(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 41 - i \ 2, true)
+			
+			-- non animated field lines - more cpu efficient
+			roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 41 - i \ 2)
+			roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 41 - i \ 2)
 		end
-
-		rovalPulse(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 41 - i \ 2, false)
-		rovalPulse(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 41 - i \ 2, true)
+		-- debug draw collider
+		-- for col in all(magfield.colliders) do
+		-- 	rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
+		-- end
 	end
-	-- debug draw collider
-	-- for col in all(magfield.colliders) do
-	-- 	rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
-	-- end
 end
 
 function drawPlayer()
-	if v2squarelength(stickRightSmoothed) > rightStickDeadZoneSquared then
-		drawMagneticFields()
-	end
 	spr(1, player.pos.x - player.radius, player.pos.y - player.radius)
+	drawHPBar(player.pos, player.maxHP, player.currentHP)
 
 	-- placeholder for fleet
-	circfill(70, 135, 20, 1)
+	circfill(90 + sin(t() * 0.01) * 50, 135 + cos(t() * 0.02) * 50, 20, 1)
+end
+
+function drawHPBar(pos, width, value)
+	rectfill(pos.x - width, pos.y - 17, pos.x + width, pos.y -13, 7)
+	local barLength = (value / width) * (width - 1) * 2
+	rectfill(pos.x - width + 1, pos.y - 16, pos.x - width + 1 + barLength, pos.y -14, 27)
+end
+
+function playerLoseHP(amount)
+	player.currentHP -= amount
+	player.currentHP = max(player.currentHP, 0)
 end
 
 -- magnetic field effects

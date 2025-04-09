@@ -3,6 +3,7 @@ function _init()
 	fetch("src/0.pal"):poke(0x5000)
 
 	bgcolor = 20
+	cpuLoad = 0
 	screenCenter = { x = 240, y = 135 }
 	fleetCenter = { x = 70, y = 135 }
 
@@ -24,6 +25,13 @@ end
 
 function _draw()
 	drawPlasma()
+	drawMagneticFields()
+	drawUpperPlasma()
 	drawPlayer()
+
+	-- framerate display
+	if (frame % 30 == 0) cpuLoad = string.format("%.0f", stat(1) * 100)
+	rectfill(436, 0, 480, 10, bgcolor)
+	print("CPU:"..cpuLoad.."%", 437, 2, 7)
 end
 
