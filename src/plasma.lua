@@ -4,7 +4,8 @@ function initPlasma()
 	dissolveSteps = 200
 	plasmaField = {}
 	plasmaColorPositive = 52
-	plasmaColorNegative = 49
+	plasmaColorNegative = 48
+	bgColor = 56
 end
 
 function updatePlasma()
@@ -48,7 +49,7 @@ end
 
 function drawPlasma()
 	if (firstFrame)	then
-		cls(bgcolor)
+		cls(bgColor)
 		firstFrame = false
 	else
 		-- restore stored screen
@@ -58,10 +59,18 @@ function drawPlasma()
 	-- dissolve to background color
 	for i = 1, dissolveSteps do
 		local x, y = rnd(480), rnd(270)
-	  local fillColor = bgcolor
+	  local fillColor = bgColor
 	  pixelColor = pget(x,y)
-	  if pixelColor == plasmaColorNegative or pixelColor == plasmaColorPositive or pixelColor == plasmaColorNegative - 1 or  pixelColor == plasmaColorPositive - 1 then
-		  fillColor = pixelColor + 1
+	  if pixelColor == plasmaColorNegative 
+	  	or pixelColor == plasmaColorNegative + 1
+		or pixelColor == plasmaColorNegative + 2
+		or pixelColor == plasmaColorPositive
+		or pixelColor == plasmaColorPositive + 1
+		or pixelColor == plasmaColorPositive + 2
+		then
+			fillColor = pixelColor + 1
+		else
+			fillColor = bgColor
 	  end
 	  circfill(x, y, 2, fillColor)
 	end
@@ -70,7 +79,7 @@ function drawPlasma()
 	for p in all(plasmaField) do
 		-- large outer circles fall behind with velocity with 2 smaller inner circles
 		for i = 1, 3 do
-			circfill(p.pos.x + rndrange(-3 - i, 3 + i), p.pos.y + rndrange(-3 - i, 3 + i), p.radius + 2 - i, p.color)
+			circfill(p.pos.x + rndrange(-3 - i, 3 + i), p.pos.y + rndrange(-3 - i, 3 + i), p.radius + 2 - i, p.color + 1)
 		end
 	end
 
@@ -78,7 +87,7 @@ function drawPlasma()
 	for p in all(plasmaField) do
 		for i = 1, 3 do
 			local position = v2sub(p.pos, v2scale(p.vel, 4 * i))
-			circfill(position.x, position.y, p.radius - i, p.color - 1)
+			circfill(position.x, position.y, p.radius - i, p.color)
 		end
 	end
 		
@@ -94,18 +103,14 @@ end
 function drawUpperPlasma()
 	-- draw bright foreground plasma balls in front of the magnetic field lines
 	for p in all(plasmaField) do
-		circfill(p.pos.x, p.pos.y, p.radius, p.color - 1)
+		circfill(p.pos.x, p.pos.y, p.radius, p.color)
 	end
 end
 
 function spawnPlasma(xPos, yPos)
-	local newPlasma = createSinglePlasma(1)
+	local newPlasma = createSinglePlasma(rnd({ -1, 1}))
 	newPlasma.vel = { x = -0.8, y = rndrange(-0.5, 0.5) }
 	newPlasma.pos = { x = xPos, y = yPos }
-	if rnd() > 0.5 then
-		newPlasma.charge = -1
-		newPlasma.color = plasmaColorNegative
-	end
 	add(plasmaField, newPlasma)
 end
 

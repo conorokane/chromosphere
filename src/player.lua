@@ -8,7 +8,7 @@ function initPlayer()
 	player.currentHP = player.maxHP
 
 	-- magnetic fields
-	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 0.5, 1, 2 } }
+	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 0.5, 1, 2 }, color = 47 }
 
 	for i = 0, magfield.steps - 1 do
 		magfield.positions[i] = { x = player.pos.x, y = player.pos.y }
@@ -16,6 +16,14 @@ function initPlayer()
 		magfield.offsets[i] = 0
 		magfield.offsets2[i] = 0
 	end
+
+	-- set up color table to draw special mag-field lines
+	for i = 0, 8 do
+		c_set_table(magfield.color, 48 + i, 32 + i) -- move plasma colors to mag-field colors
+		c_set_table(magfield.color, 32 + i, 32 + i) -- ensure overwriting an existing mag-field color stays the same
+	end
+	poke(0x550b, 63) -- set target mask to all 1s to allow shapes to use the color table
+	-- see: https://www.lexaloffle.com/dl/docs/picotron_gfx_pipeline.html
 end
 
 function updatePlayer()
@@ -99,13 +107,9 @@ function drawMagneticFields()
 				angle2 = atan2(vectorToPlayer2.x, vectorToPlayer2.y)
 			end
 
-			-- pulsing field lines
-			-- rovalPulse(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 41 - i \ 2, false)
-			-- rovalPulse(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 41 - i \ 2, true)
-			
-			-- non animated field lines - more cpu efficient
-			roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 41 - i \ 2)
-			roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 41 - i \ 2)
+			-- field lines use color table to create inverse colors
+			roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, magfield.color)
+			roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, magfield.color)
 		end
 		-- debug draw collider
 		-- for col in all(magfield.colliders) do
@@ -116,7 +120,7 @@ end
 
 function drawPlayer()
 	spr(1, player.pos.x - player.radius, player.pos.y - player.radius)
-	drawHPBar(player.pos, player.maxHP, player.currentHP)
+	-- drawHPBar(player.pos, player.maxHP, player.currentHP)
 
 	-- placeholder for fleet
 	circfill(90 + sin(t() * 0.01) * 50, 135 + cos(t() * 0.02) * 50, 20, 1)
@@ -177,7 +181,13 @@ function roval (x, y, w, h, verts, angle, col)
 		-- rotate points
 		local pxrotated = px * cos(angle) - py * sin(angle)
 		local pyrotated = py * cos(angle) + px * sin(angle)
-	-- draw points
+		-- draw points
 		line(x + pxrotated, y + pyrotated, col)
  	end
+end
+
+-- set a color in the default color table
+-- source https://www.lexaloffle.com/bbs/?tid=141281
+function c_set_table (draw_color, target_color, result)
+	poke (0x8000 + 64 * draw_color + target_color, result)
 end
