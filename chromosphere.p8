@@ -6,3 +6,5 @@ __lua__
 #include src/player.lua
 #include src/vector2.lua
 #include src/plasma.lua
+#include src/payload.lua
+#include src/hud.lua

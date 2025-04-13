@@ -4,8 +4,9 @@ function initPlayer()
 	stickRightSmoothed = { x = 0, y = 0 }
 	rightStickDecay = 0.2
 	rightStickDeadZoneSquared = 0.002
-	player = {pos = {x = 240, y = 135}, speed = 3, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10 }
+	player = {pos = {x = 240, y = 135}, speed = 3, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10, hpBarTarget = { x = 0, y = -17 }, hpBarInertia = 0.4 }
 	player.currentHP = player.maxHP
+	player.hpBarPos = v2add(player.pos, player.hpBarTarget)
 
 	-- magnetic fields
 	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 0.5, 1, 2 }, color = 47 }
@@ -16,14 +17,6 @@ function initPlayer()
 		magfield.offsets[i] = 0
 		magfield.offsets2[i] = 0
 	end
-
-	-- set up color table to draw special mag-field lines
-	for i = 0, 8 do
-		c_set_table(magfield.color, 48 + i, 32 + i) -- move plasma colors to mag-field colors
-		c_set_table(magfield.color, 32 + i, 32 + i) -- ensure overwriting an existing mag-field color stays the same
-	end
-	poke(0x550b, 63) -- set target mask to all 1s to allow shapes to use the color table
-	-- see: https://www.lexaloffle.com/dl/docs/picotron_gfx_pipeline.html
 end
 
 function updatePlayer()
@@ -52,6 +45,9 @@ function updatePlayer()
 
 	player.aim.x = player.pos.x + stickRightSmoothed.x
 	player.aim.y = player.pos.y + stickRightSmoothed.y
+
+	-- lerp hp bar to target
+	player.hpBarPos = v2lerp(player.hpBarPos, v2add(player.pos, player.hpBarTarget), player.hpBarInertia)
 
 	if v2squarelength(stickRightSmoothed) < rightStickDeadZoneSquared then
 		-- reset magnetic field positions
@@ -120,17 +116,9 @@ end
 
 function drawPlayer()
 	spr(1, player.pos.x - player.radius, player.pos.y - player.radius)
-	-- drawHPBar(player.pos, player.maxHP, player.currentHP)
-
-	-- placeholder for fleet
-	circfill(90 + sin(t() * 0.01) * 50, 135 + cos(t() * 0.02) * 50, 20, 1)
 end
 
-function drawHPBar(pos, width, value)
-	rectfill(pos.x - width, pos.y - 17, pos.x + width, pos.y -13, 7)
-	local barLength = (value / width) * (width - 1) * 2
-	rectfill(pos.x - width + 1, pos.y - 16, pos.x - width + 1 + barLength, pos.y -14, 27)
-end
+
 
 function playerLoseHP(amount)
 	player.currentHP -= amount
@@ -184,10 +172,4 @@ function roval (x, y, w, h, verts, angle, col)
 		-- draw points
 		line(x + pxrotated, y + pyrotated, col)
  	end
-end
-
--- set a color in the default color table
--- source https://www.lexaloffle.com/bbs/?tid=141281
-function c_set_table (draw_color, target_color, result)
-	poke (0x8000 + 64 * draw_color + target_color, result)
 end

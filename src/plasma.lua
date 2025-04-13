@@ -1,7 +1,5 @@
 function initPlasma()
-	firstFrame = true
 	distortSteps = 300 -- was 1000
-	dissolveSteps = 200
 	plasmaField = {}
 	plasmaColorPositive = 52
 	plasmaColorNegative = 48
@@ -36,6 +34,11 @@ function updatePlasma()
 		if v2proximity(p.pos, player.pos, player.radius) then
 			playerLoseHP(0.1)
 		end
+
+		-- payload collisions
+		if v2proximity(p.pos, payload.pos, payload.radius) then
+			payloadLoseHP(0.1)
+		end
 	end
 
 	-- spawn random plasma
@@ -47,34 +50,7 @@ function updatePlasma()
 	if (frame % 180 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 
-function drawPlasma()
-	if (firstFrame)	then
-		cls(bgColor)
-		firstFrame = false
-	else
-		-- restore stored screen
-		memcpy(0x010000, 0x080000, 131072) -- 128kb = 13,1072 bytes
-	end
-	
-	-- dissolve to background color
-	for i = 1, dissolveSteps do
-		local x, y = rnd(480), rnd(270)
-	  local fillColor = bgColor
-	  pixelColor = pget(x,y)
-	  if pixelColor == plasmaColorNegative 
-	  	or pixelColor == plasmaColorNegative + 1
-		or pixelColor == plasmaColorNegative + 2
-		or pixelColor == plasmaColorPositive
-		or pixelColor == plasmaColorPositive + 1
-		or pixelColor == plasmaColorPositive + 2
-		then
-			fillColor = pixelColor + 1
-		else
-			fillColor = bgColor
-	  end
-	  circfill(x, y, 2, fillColor)
-	end
-
+function drawPlasmaLower()
 	-- draw background plasma balls
 	for p in all(plasmaField) do
 		-- large outer circles fall behind with velocity with 2 smaller inner circles
@@ -90,17 +66,9 @@ function drawPlasma()
 			circfill(position.x, position.y, p.radius - i, p.color)
 		end
 	end
-		
-	-- distort screen
-	for i = 1, distortSteps do
-		local x, y = rnd(480), rnd(270)
-			rectfill(x-1, y-1, x+1, y+1, pget(x, y))
-	  end
-	-- copy current screen to free memory
-	memcpy(0x080000, 0x010000, 131072)
 end
 
-function drawUpperPlasma()
+function drawPlasmaUpper()
 	-- draw bright foreground plasma balls in front of the magnetic field lines
 	for p in all(plasmaField) do
 		circfill(p.pos.x, p.pos.y, p.radius, p.color)
