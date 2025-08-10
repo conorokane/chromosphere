@@ -25,7 +25,7 @@ function updatePlasma()
 		if player.magfieldsActive then
 			for i = 1, #magfield.colliders do
 				if v2proximity(p.pos, magfield.colliders[i], magfield.colliderSize) then
-					p.vel = v2rotate(p.vel, p.charge * magfield.strength[i])
+					p.vel = v2rotate(p.vel, p.charge * magfield.strength[i] / p.radius)
 				end
 			end
 		end
@@ -94,7 +94,7 @@ function sprayPlasma(direction, count, _charge, spread)
 end
 
 function createSinglePlasma(_charge)
-	local newPlasma = { vel = { v2zero }, pos = { v2zero }, color = plasmaColorPositive, life = 0, lifespan = rndrange(900, 1500), charge = _charge, radius = rndrange(4, 9), onScreen = false }
+	local newPlasma = { vel = { v2zero }, pos = { v2zero }, color = plasmaColorPositive, life = 0, lifespan = rndrange(900, 1500), charge = _charge, radius = rndrange(4, 12), onScreen = false }
 	if (_charge == -1) newPlasma.color = plasmaColorNegative
 	return newPlasma
 end
