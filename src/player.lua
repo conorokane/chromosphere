@@ -4,7 +4,7 @@ function initPlayer()
 	stickRightSmoothed = { x = 0, y = 0 }
 	rightStickDecay = 0.2
 	rightStickDeadZoneSquared = 0.002
-	player = {pos = {x = 240, y = 135}, speed = 3, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10, hpBarTarget = { x = 0, y = -17 }, hpBarInertia = 0.4 }
+	player = {pos = {x = 240, y = 135}, speed = 3, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10, hpBarTarget = { x = 0, y = -17 }, hpBarInertia = 0.4, takingDamage = false }
 	player.currentHP = player.maxHP
 	player.hpBarPos = v2add(player.pos, player.hpBarTarget)
 
@@ -108,9 +108,9 @@ function drawMagneticFields()
 			roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, magfield.color)
 		end
 		-- debug draw collider
-		-- for col in all(magfield.colliders) do
-		-- 	rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
-		-- end
+		for col in all(magfield.colliders) do
+			rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
+		end
 	end
 end
 
@@ -118,44 +118,13 @@ function drawPlayer()
 	spr(1, player.pos.x - player.radius, player.pos.y - player.radius)
 end
 
-
-
 function playerLoseHP(amount)
 	player.currentHP -= amount
 	player.currentHP = max(player.currentHP, 0)
+	player.takingDamage = true
 end
 
 -- magnetic field effects
-
--- draw a pulsing rotated oval
-function rovalPulse (x, y, w, h, verts, angle, col, reverse)
-	line()
-	points = {}
-	local px, py
-
-
- 	for i = 0, verts do
-		-- calculate ellipse
-		px = cos(i / verts) * w
-		py = sin(i / verts) * h
-		-- rotate points
-		local pxrotated = px * cos(angle) - py * sin(angle)
-		local pyrotated = py * cos(angle) + px * sin(angle)
-		-- draw points
-		local color = col
-		if (frame % 2 == 0) then -- draw colored pulses every 2nd frame
-			if (reverse) then
-				if (-1 * frame \ 3 % verts == i) color = col + 3
-				if (frame \ 3 % verts == i) color = col - 3
-			else
-				if (frame \ 3 % verts == i) color = col + 3
-				if (-1 * frame \ 3 % verts == i) color = col - 3
-			end
-			color = clamp(color, 32, 42)
-		end
-		line(x + pxrotated, y + pyrotated, color)
- 	end
-end
 
 -- draw a rotated oval
 function roval (x, y, w, h, verts, angle, col)

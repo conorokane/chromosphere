@@ -5,7 +5,8 @@ function _init()
 	cpuLoad = 0
 	screenCenter = { x = 240, y = 135 }
 	firstFrame = true
-	dissolveSteps = 200
+	distortSteps = 100
+	dissolveSteps = 150
 
 	window{cursor = 0}
 
@@ -23,6 +24,7 @@ end
 
 function _update()
 	frame += 1
+	resetFlags()
 	updatePlasma()
 	updatePayload()
 	updatePlayer()
@@ -65,7 +67,8 @@ end
 function distortScreen()
 	for i = 1, distortSteps do
 		local x, y = rnd(480), rnd(270)
-			rectfill(x-1, y-1, x+1, y+1, pget(x, y))
+			--rectfill(x - 1, y - 1, x + 2, y + 2, pget(x, y))
+			circfill(x + rndrange(-2, 2), y + rndrange(-2, 2), 2, pget(x, y))
 	end
 end
 
@@ -94,6 +97,12 @@ function dissolveScreen()
   			circfill(x, y, 2, fillColor)
 		end
 	end
+end
+
+function resetFlags()
+	-- resetting flags that may get set true later in the update, but before draw
+	player.takingDamage = false
+	payload.takingDamage = false
 end
 
 function setupColorTable()

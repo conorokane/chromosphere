@@ -1,6 +1,10 @@
 function initPlasma()
-	distortSteps = 300 -- was 1000
 	plasmaField = {}
+	streakFrequencyBackground = 10 -- frames between drawing a streak
+	streakFrequencyForeground = 21
+	streakRotationRate = 0.0002
+	streakRotationScale = 0.07
+	streakDirection = v2make(-130, -20)
 	plasmaColorPositive = 52
 	plasmaColorNegative = 48
 	bgColor = 56
@@ -48,9 +52,19 @@ function updatePlasma()
 	local sign = 1
 	if (rnd() < 0.5) sign = -1
 	if (frame % 180 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
+
+	-- rotate streak direction
+	streakDirection = v2rotate(streakDirection, sin(frame * streakRotationRate) * streakRotationScale)
 end
 
 function drawPlasmaLower()
+	-- draw background streaks
+	if frame % streakFrequencyBackground == 0 then
+		local streakStart = { x = rnd(530), y = rndrange(-50, 330) }
+		local streakEnd = v2add(streakStart, v2scale(streakDirection, rndrange(0.5, 3)))
+		line(streakStart.x, streakStart.y, streakEnd.x, streakEnd.y, 4)
+	end
+
 	-- draw background plasma balls
 	for p in all(plasmaField) do
 		-- large outer circles fall behind with velocity with 2 smaller inner circles
@@ -65,6 +79,13 @@ function drawPlasmaLower()
 			local position = v2sub(p.pos, v2scale(p.vel, 4 * i))
 			circfill(position.x, position.y, p.radius - i, p.color)
 		end
+	end
+
+	-- draw foreground streaks
+	if frame % streakFrequencyForeground == 0 then
+		local streakStart = { x = rnd(530), y = rndrange(-50, 330) }
+		local streakEnd = v2add(streakStart, v2scale(streakDirection, rndrange(0.5, 3)))
+		line(streakStart.x, streakStart.y, streakEnd.x, streakEnd.y, 31)
 	end
 end
 
