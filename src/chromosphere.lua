@@ -8,11 +8,16 @@ function _init()
 	distortSteps = 100
 	dissolveSteps = 150
 
+	scrollDirection = v2make(-130, -20)
+	scrollRotationRate = 0.0002
+	scrollRotationScale = 0.03
+
 	window{cursor = 0}
 
 	initPlayer()
 	initPlasma()
 	initPayload()
+	initEffects()
 	initGame()
 end
 
@@ -27,6 +32,7 @@ function _update()
 	resetFlags()
 	updatePlasma()
 	updatePayload()
+	updateEffects()
 	updatePlayer()
 end
 
@@ -36,6 +42,7 @@ function _draw()
 	drawPlasmaLower()
 	drawPayloadLower()
 	distortScreen()
+	drawEffects()
 	copyScreenToMemory()
 	drawMagneticFields()
 	drawPayload()

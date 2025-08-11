@@ -89,13 +89,13 @@ function v2simulate(p)
 		p.vel = v2scale(p.vel, p.drag)
 	end
 	p.pos = v2add(p.pos, p.vel)
-	if (p.life)	p.life += 1
+	p.life += 1
 end
 
 -- fast simulation for bullets with no drag, force
 function v2simulatefast(p)
 	p.pos = v2add(p.pos, p.vel)
-	if (p.life)	p.life += 1
+	p.life += 1
 end
 
 -- general math utilities

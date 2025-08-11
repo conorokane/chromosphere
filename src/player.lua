@@ -9,7 +9,7 @@ function initPlayer()
 	player.hpBarPos = v2add(player.pos, player.hpBarTarget)
 
 	-- magnetic fields
-	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 2, 4, 8 }, color = 47 }
+	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 3, 6, 9 }, color = 47 }
 
 	for i = 0, magfield.steps - 1 do
 		magfield.positions[i] = { x = player.pos.x, y = player.pos.y }
@@ -108,9 +108,9 @@ function drawMagneticFields()
 			roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, magfield.color)
 		end
 		-- debug draw collider
-		for col in all(magfield.colliders) do
-			rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
-		end
+		-- for col in all(magfield.colliders) do
+		-- 	rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
+		-- end
 	end
 end
 

@@ -1,10 +1,8 @@
 function initPlasma()
 	plasmaField = {}
-	streakFrequencyBackground = 10 -- frames between drawing a streak
-	streakFrequencyForeground = 21
-	streakRotationRate = 0.0002
-	streakRotationScale = 0.07
-	streakDirection = v2make(-130, -20)
+	streakFrequencyBackground = 8 -- frames between drawing a streak
+	streakFrequencyForeground = 15	 -- was 15
+	
 	plasmaColorPositive = 52
 	plasmaColorNegative = 48
 	bgColor = 56
@@ -52,17 +50,16 @@ function updatePlasma()
 	local sign = 1
 	if (rnd() < 0.5) sign = -1
 	if (frame % 180 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
-
-	-- rotate streak direction
-	streakDirection = v2rotate(streakDirection, sin(frame * streakRotationRate) * streakRotationScale)
 end
 
 function drawPlasmaLower()
 	-- draw background streaks
 	if frame % streakFrequencyBackground == 0 then
 		local streakStart = { x = rnd(530), y = rndrange(-50, 330) }
-		local streakEnd = v2add(streakStart, v2scale(streakDirection, rndrange(0.5, 3)))
+		local streakEnd = v2add(streakStart, v2scale(scrollDirection, rndrange(0.5, 3)))
+		-- double thick line
 		line(streakStart.x, streakStart.y, streakEnd.x, streakEnd.y, 4)
+		line(streakStart.x, streakStart.y + 1, streakEnd.x, streakEnd.y + 1, 4)
 	end
 
 	-- draw background plasma balls
@@ -84,8 +81,26 @@ function drawPlasmaLower()
 	-- draw foreground streaks
 	if frame % streakFrequencyForeground == 0 then
 		local streakStart = { x = rnd(530), y = rndrange(-50, 330) }
-		local streakEnd = v2add(streakStart, v2scale(streakDirection, rndrange(0.5, 3)))
+		local streakSize = rndrange(0.5, 3)
+		local streakEnd = v2add(streakStart, v2scale(scrollDirection, streakSize))
 		line(streakStart.x, streakStart.y, streakEnd.x, streakEnd.y, 31)
+
+		-- check if streak collides with player or payload
+		local steps = streakSize * 8
+		for i = 0, steps do
+			-- check along streak length for collisions
+			local point = v2add(streakStart, v2scale(scrollDirection, streakSize * i / steps))
+			-- debug draw points
+			-- rect(point.x - player.radius, point.y - player.radius, point.x + player.radius, point.y + player.radius, 7)
+			if v2proximity(point, player.pos, player.radius) or v2proximity(point, payload.pos, payload.radius) then
+				-- flash
+				circfill(point.x, point.y, 10, 31)
+				for j = 1, 12 do
+					local randomVector = v2rotate(v2scale(scrollDirection, 0.05), rndrange(-15, 15))
+					spawnParticle(point, v2add(v2scale(scrollDirection, rndrange(0.003, 0.08)), randomVector), 0.9, rndrange(45, 60), { 31, 4, 20 })	
+				end
+			end
+		end
 	end
 end
 

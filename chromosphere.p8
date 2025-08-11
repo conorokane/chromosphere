@@ -9,3 +9,4 @@ __lua__
 #include src/plasma.lua
 #include src/payload.lua
 #include src/hud.lua
+#include src/effects.lua
