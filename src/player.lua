@@ -4,7 +4,7 @@ function initPlayer()
 	stickRightSmoothed = { x = 0, y = 0 }
 	rightStickDecay = 0.2
 	rightStickDeadZoneSquared = 0.002
-	player = {pos = {x = 240, y = 135}, speed = 3, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10, hpBarTarget = { x = 0, y = -17 }, hpBarInertia = 0.4, takingDamage = false }
+	player = {pos = {x = 240, y = 135}, speed = 2, aim = {x = 0, y = 0}, radius = 8, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10, hpBarTarget = { x = 0, y = -17 }, hpBarInertia = 0.4, takingDamage = false }
 	player.currentHP = player.maxHP
 	player.hpBarPos = v2add(player.pos, player.hpBarTarget)
 

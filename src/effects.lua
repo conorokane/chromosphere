@@ -1,6 +1,6 @@
 function initEffects()
 	particles = {}
-	heatParticlesRate = 5
+	heatParticlesRate = 6
 end
 
 function updateEffects()
@@ -11,7 +11,7 @@ function updateEffects()
 		spawnParticleWithForce(v2add(spawnPoint, offset), offset, 1, rndrange(10, 40), { 7, 10, 25 }, v2scale(scrollDirection, 0.002))
 
 		spawnPoint = v2add(payload.pos, v2scale(scrollDirection, - 0.2))
-		offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.02, 0.02))
+		offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.025, 0.025))
 		spawnParticleWithForce(v2add(spawnPoint, offset), offset, 1, rndrange(10, 40), { 7, 10, 25 }, v2scale(scrollDirection, 0.002))
 	end
 
@@ -21,7 +21,9 @@ function updateEffects()
 	end
 end
 
-function drawEffects()
+-- this gets called twice, once with layer = "lower" for effects that merge with the background plasma
+-- then with layer = "upper" for effects that draw on top of sprites
+function drawEffects(layer)
 	for p in all(particles) do
 		local pcolor = p.colors[1]
 		if p.life > p.lifespan * 0.66 then
@@ -29,9 +31,14 @@ function drawEffects()
 		elseif p.life > p.lifespan * 0.33 then
 			pcolor = p.colors[2]
 		end
-		-- circfill(p.pos.x, p.pos.y, 1, pcolor)
+		
+		-- flash on first particle draw
+		if layer == "lower" and p.life == 1 then
+			circfill(p.pos.x, p.pos.y, rndrange(1, 2), pcolor)
+		end
+	
 		line(p.pos.x, p.pos.y, p.pos.x - p.vel.x * 2, p.pos.y - p.vel.y * 2, pcolor)
-		line(p.pos.x + rndrange(-2, 2), p.pos.y + rndrange(-2, 2), p.pos.x - p.vel.x * 2, p.pos.y - p.vel.y * 2, pcolor)
+		line(p.pos.x, p.pos.y, p.pos.x + rndrange(-2, 2) - p.vel.x * 2, p.pos.y + rndrange(-2, 2) - p.vel.y * 2, pcolor)
 	end
 end
 

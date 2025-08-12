@@ -5,8 +5,8 @@ function _init()
 	cpuLoad = 0
 	screenCenter = { x = 240, y = 135 }
 	firstFrame = true
-	distortSteps = 100
-	dissolveSteps = 150
+	distortSteps = 120
+	dissolveSteps = 130
 
 	scrollDirection = v2make(-130, -20)
 	scrollRotationRate = 0.0002
@@ -42,12 +42,13 @@ function _draw()
 	drawPlasmaLower()
 	drawPayloadLower()
 	distortScreen()
-	drawEffects()
+	drawEffects("lower")
 	copyScreenToMemory()
 	drawMagneticFields()
 	drawPayload()
-	drawPlasmaUpper()
 	drawPlayer()
+	drawEffects("upper") -- called again to draw particles on top of sprites
+	drawPlasmaUpper()
 	drawHud()
 
 	-- framerate display
@@ -84,6 +85,7 @@ function dissolveScreen()
 	for i = 1, dissolveSteps do
 		local x, y = rnd(480), rnd(270)
 		local fillColor = bgColor
+		local circleRadius = rndrange(2, 4)
 		pixelColor = pget(x,y)
 		if pixelColor == plasmaColorNegative 
 			or pixelColor == plasmaColorNegative + 1
@@ -98,10 +100,12 @@ function dissolveScreen()
 	  	end
 
 		if fillColor == payload.color then
-			circfill(x - 4, y, 2, fillColor)
-			circfill(x, y, 1, bgColor)
+			-- payload trail spreads left
+			rectfill(x - 8, y - 2, x - 1, y + 2, fillColor)
+			-- circfill(x - 4, y, 4, fillColor)
+			circfill(x, y, circleRadius, bgColor)
 		else
-  			circfill(x, y, 2, fillColor)
+  			circfill(x, y, circleRadius, fillColor)
 		end
 	end
 end
