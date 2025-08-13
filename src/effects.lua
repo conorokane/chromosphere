@@ -1,6 +1,6 @@
 function initEffects()
 	particles = {}
-	heatParticlesRate = 6
+	heatParticlesRate = 4
 end
 
 function updateEffects()
@@ -10,8 +10,8 @@ function updateEffects()
 		-- local offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.01, 0.01))
 		-- spawnParticleWithForce(v2add(spawnPoint, offset), offset, 1, rndrange(10, 40), { 7, 10, 25 }, v2scale(scrollDirection, 0.002))
 
-		spawnPoint = v2add(payload.pos, v2scale(scrollDirection, - 0.2))
-		offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.025, 0.025))
+		spawnPoint = v2add(payload.pos, v2scale(scrollDirection, - 0.25))
+		offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.03, 0.03))
 		spawnParticleWithForce(v2add(spawnPoint, offset), offset, 1, rndrange(10, 40), { 7, 10, 25 }, v2scale(scrollDirection, 0.002))
 	end
 

@@ -75,8 +75,8 @@ end
 function distortScreen()
 	for i = 1, distortSteps do
 		local x, y = rnd(480), rnd(270)
-			--rectfill(x - 1, y - 1, x + 2, y + 2, pget(x, y))
-			circfill(x + rndrange(-2, 2), y + rndrange(-2, 2), 2, pget(x, y))
+			-- rectfill(x - 2, y - 2, x + 2, y + 2, pget(x, y)) -- werxzy style
+			circfill(x + rndrange(-3, 3), y + rndrange(-3, 3), 2, pget(x, y))
 	end
 end
 
@@ -100,10 +100,9 @@ function dissolveScreen()
 	  	end
 
 		if fillColor == payload.color then
-			-- payload trail spreads left
-			rectfill(x - 8, y - 2, x - 1, y + 2, fillColor)
-			-- circfill(x - 4, y, 4, fillColor)
-			circfill(x, y, circleRadius, bgColor)
+			local fillPos = v2add(v2make(x, y), v2scale(scrollDirection, 0.08))
+			circfill(fillPos.x, fillPos.y, rndrange(1, 3), fillColor)
+			-- circfill(x, y, circleRadius, bgColor)
 		else
   			circfill(x, y, circleRadius, fillColor)
 		end

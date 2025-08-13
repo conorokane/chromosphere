@@ -95,7 +95,7 @@ function drawPlasmaLower()
 			if v2proximity(point, player.pos, player.radius) or v2proximity(point, payload.pos, payload.radius) then
 				-- flash
 				circfill(point.x, point.y, 10, 31)
-				for j = 1, 12 do
+				for j = 1, 6 do
 					local randomVector = v2rotate(v2scale(scrollDirection, 0.05), rndrange(-15, 15))
 					spawnParticle(point, v2add(v2scale(scrollDirection, rndrange(0.003, 0.08)), randomVector), 0.9, rndrange(45, 60), { 31, 4, 20 })	
 				end
