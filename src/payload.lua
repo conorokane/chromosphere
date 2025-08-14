@@ -1,5 +1,5 @@
 function initPayload()
-	payload = { pos = { x = 0, y = 0 }, color = 57, fxFrequency = 10, fxRange = 5, maxHP = 50, hpBarTarget = { x = 0, y = -30 }, hpBarInertia = 0.4, radius = 25 , takingDamage = false }
+	payload = { pos = { x = 0, y = 0 }, color = 61, fxFrequency = 10, fxRange = 5, maxHP = 50, hpBarTarget = { x = 0, y = -30 }, hpBarInertia = 0.4, radius = 25 , takingDamage = false }
 	payload.currentHP = payload.maxHP
 	updatePayload()
 end

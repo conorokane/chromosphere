@@ -117,12 +117,21 @@ end
 
 function setupColorTable()
 	-- set up color table to draw magnetic-field lines
-	for i = 0, 8 do
-		c_set_table(magfield.color, 48 + i, 32 + i) -- move plasma colors to mag-field colors
-		c_set_table(magfield.color, 32 + i, 32 + i) -- ensure overwriting an existing mag-field color stays the same
+	for i = 0, 63 do
+
 	end
-	c_set_table(magfield.color, payload.color, payload.color - 16) -- magfields draw special color over payload
-	c_set_table(magfield.color, payload.color - 16, payload.color - 16) -- prevent overwrite
+	for i = 0, 4 do
+		c_set_table(magfield.color, 48 + i, 59) -- pink plasma
+	end
+	for i = 0, 4 do
+		c_set_table(magfield.color, 52 + i, 58) -- orange plasma
+	end
+	c_set_table(magfield.color, bgColor, 57) -- background color 
+	c_set_table(magfield.color, payload.color, 60) -- magfields draw special color over payload
+	-- c_set_table(magfield.color, 57, 57) -- prevent overwrite
+	c_set_table(magfield.color, 58, 58) 
+	c_set_table(magfield.color, 59, 59) 
+	c_set_table(magfield.color, 60, 60) 
 
 	poke(0x550b, 63) -- set target mask to all 1s to allow shapes to use the color table
 	-- see: https://www.lexaloffle.com/dl/docs/picotron_gfx_pipeline.html
