@@ -10,7 +10,7 @@ function drawHPBar(pos, width, value, warning) -- width = max HP
 	local barLength = (value / width) * width * 2
 	--bar background
 	rectfill(pos.x - width - 1, pos.y - 2, pos.x + width + 1, pos.y + 2, 5)
-	rectfill(pos.x - width - 1, pos.y - 1, pos.x + width + 1, pos.y + 1, 21)
+	rectfill(pos.x - width, pos.y - 1, pos.x + width, pos.y + 1, 21)
 
 	local barColor = 26
 	if (warning) barColor = 8

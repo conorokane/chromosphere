@@ -118,7 +118,7 @@ end
 function setupColorTable()
 	-- set up color table to draw magnetic-field lines
 	for i = 0, 63 do
-
+		c_set_table(magfield.color, i, 57) -- set up magfield color to draw dark red over all colors
 	end
 	for i = 0, 4 do
 		c_set_table(magfield.color, 48 + i, 59) -- pink plasma
@@ -128,7 +128,9 @@ function setupColorTable()
 	end
 	c_set_table(magfield.color, bgColor, 57) -- background color 
 	c_set_table(magfield.color, payload.color, 60) -- magfields draw special color over payload
-	-- c_set_table(magfield.color, 57, 57) -- prevent overwrite
+	c_set_table(magfield.color, 4, 20)  -- background streaks go darker
+	c_set_table(magfield.color, 31, 31) -- foreground streaks are unchanged - makes them look like they're in front
+	c_set_table(magfield.color, 57, 57) -- prevent overwrite
 	c_set_table(magfield.color, 58, 58) 
 	c_set_table(magfield.color, 59, 59) 
 	c_set_table(magfield.color, 60, 60) 
