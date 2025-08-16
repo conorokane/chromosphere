@@ -33,7 +33,7 @@ function updatePlasma()
 		end
 
 		-- player collisions
-		if v2proximity(p.pos, player.pos, player.hitRadius) then
+		if v2proximity(p.pos, player.pos, player.hitRadius + p.radius - 3) then
 			playerLoseHP(0.1)
 		end
 
@@ -46,10 +46,10 @@ function updatePlasma()
 	-- spawn random plasma
 	-- if (frame % 10 == 0) spawnPlasma(490, rndrange(40, 240))
 
-	-- spray
+	-- spray test plasma
 	local sign = 1
 	if (rnd() < 0.5) sign = -1
-	if (frame % 220 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
+	if (frame % 400 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 
 function drawPlasmaLower()
@@ -106,7 +106,9 @@ function drawPlasmaLower()
 	-- player lasers
 	laserOffset = rndrange(-1, 2)
 	if player.shooting and frame % player.fireRate == shootStartOffset then
-		line(player.pos.x + 18, player.pos.y - 1 + laserOffset, 480, player.pos.y - 1 + laserOffset, rndrange(32, 36))
+		local laserColor = rndrange(32, 36)
+		line(player.pos.x + 16, player.pos.y - 1 + laserOffset, 480, player.pos.y - 1 + laserOffset, laserColor)
+		circfill(player.pos.x + 22, player.pos.y - 1 + laserOffset, rndrange(3, 6), laserColor + 2)
 	end
 end
 

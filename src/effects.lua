@@ -19,6 +19,9 @@ function updateEffects()
 		v2simulate(p)
 		if (p.life > p.lifespan) del(particles, p)
 	end
+
+	-- rotate scroll direction
+	scrollDirection = v2rotate(scrollDirection, sin(frame * scrollRotationRate) * scrollRotationScale)
 end
 
 -- this gets called twice, once with layer = "lower" for effects that merge with the background plasma

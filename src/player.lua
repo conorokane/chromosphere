@@ -118,22 +118,42 @@ function drawMagneticFields()
 			roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, magfield.color)
 		end
 		-- debug draw collider
-		-- for col in all(magfield.colliders) do
-		-- 	rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
-		-- end
+		for col in all(magfield.colliders) do
+			rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
+		end
 	end
 end
 
 function drawPlayer()
-	spr(7, player.pos.x - 14, player.pos.y - 10) -- legs
+	spr(5, player.pos.x - 14, player.pos.y - 10) -- legs
 	local bodySprite = 2
-	if (player.shooting) bodySprite = 3
-	spr(bodySprite, player.pos.x - 14, player.pos.y - 10) -- body
+	if (player.shooting) then
+		bodySprite = 3
+		if frame % player.fireRate == shootStartOffset 
+			or (frame - 1) % player.fireRate == shootStartOffset 
+			or (frame - 2) % player.fireRate == shootStartOffset then
+			bodySprite = 4 -- recoil sprite drawn for 3 frames
+		end
+
+		-- muzzle flash
+		if frame % 12 < 3 then
+			sspr(8, 0, 0, 16, 16, player.pos.x + 18, player.pos.y - 8)
+		elseif frame % 12 < 6 then
+			sspr(8, 16, 0, 16, 16, player.pos.x + 18, player.pos.y - 8)
+		elseif frame % 12 < 9 then
+			sspr(8, 0, 16, 16, 16, player.pos.x + 18, player.pos.y - 8)
+		else
+			sspr(8, 16, 16, 16, 16, player.pos.x + 18, player.pos.y - 8)
+		end
+	end
 
 	-- laser
 	if player.shooting and frame % player.fireRate == shootStartOffset then
 		line(player.pos.x + 18, player.pos.y - 1 + laserOffset, 480, player.pos.y - 1 + laserOffset, 7)
 	end
+
+	--body
+	spr(bodySprite, player.pos.x - 14, player.pos.y - 10) -- body
 end
 
 function playerLoseHP(amount)
