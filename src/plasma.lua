@@ -33,7 +33,7 @@ function updatePlasma()
 		end
 
 		-- player collisions
-		if v2proximity(p.pos, player.pos, player.radius) then
+		if v2proximity(p.pos, player.pos, player.hitRadius) then
 			playerLoseHP(0.1)
 		end
 
@@ -92,7 +92,7 @@ function drawPlasmaLower()
 			local point = v2add(streakStart, v2scale(scrollDirection, streakSize * i / steps))
 			-- debug draw points
 			-- rect(point.x - player.radius, point.y - player.radius, point.x + player.radius, point.y + player.radius, 7)
-			if v2proximity(point, player.pos, player.radius) or v2proximity(point, payload.pos, payload.radius) then
+			if v2proximity(point, player.pos, player.hitRadius) or v2proximity(point, payload.pos, payload.radius) then
 				-- flash
 				circfill(point.x, point.y, 10, 31)
 				for j = 1, 6 do
@@ -101,6 +101,12 @@ function drawPlasmaLower()
 				end
 			end
 		end
+	end
+
+	-- player lasers
+	laserOffset = rndrange(-1, 2)
+	if player.shooting and frame % player.fireRate == shootStartOffset then
+		line(player.pos.x + 18, player.pos.y - 1 + laserOffset, 480, player.pos.y - 1 + laserOffset, rndrange(32, 36))
 	end
 end
 

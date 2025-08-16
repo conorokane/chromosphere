@@ -4,7 +4,7 @@ function initPlayer()
 	stickRightSmoothed = { x = 0, y = 0 }
 	rightStickDecay = 0.2
 	rightStickDeadZoneSquared = 0.002
-	player = {pos = {x = 240, y = 135}, speed = 2, aim = {x = 0, y = 0}, radius = 16, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10, hpBarTarget = { x = 0, y = -19 }, hpBarInertia = 0.35, takingDamage = false }
+	player = {pos = {x = 240, y = 135}, speed = 2, aim = {x = 0, y = 0}, hitRadius = 4, target = {x = 240, y = 135}, inertia = 0.1, aimAngle = 0, magfieldsActive = false, maxHP = 10, hpBarTarget = { x = 0, y = -13 }, hpBarInertia = 0.35, takingDamage = false, shooting = false, fireRate = 9 }
 	player.currentHP = player.maxHP
 	player.hpBarPos = v2add(player.pos, player.hpBarTarget)
 
@@ -20,14 +20,24 @@ function initPlayer()
 end
 
 function updatePlayer()
+	if btnp(14) or btnp(15) then
+		shootStartOffset = frame % player.fireRate
+	end
+	player.shooting = btn(14) or btn(15) -- bumpers
+
 	stickLeft = {
 		x = (btn(1) or 0)/255 - (btn(0) or 0)/255,
 		y = (btn(3) or 0)/255 - (btn(2) or 0)/255
 	}
-	stickRight = {
-		x = (btn(9) or 0)/255 - (btn(8) or 0)/255,
-		y = (btn(11) or 0)/255 - (btn(10) or 0)/255
-	}
+
+	-- can't project mag field while shooting
+	stickRight = v2make(0, 0)
+	if not player.shooting then
+		stickRight = {
+			x = (btn(9) or 0)/255 - (btn(8) or 0)/255,
+			y = (btn(11) or 0)/255 - (btn(10) or 0)/255
+		}
+	end
 
 	if v2squarelength(stickRight) >= rightStickDeadZoneSquared then
 		stickRightSmoothed = stickRight
@@ -115,7 +125,15 @@ function drawMagneticFields()
 end
 
 function drawPlayer()
-	spr(2, player.pos.x - player.radius, player.pos.y - player.radius)
+	spr(7, player.pos.x - 14, player.pos.y - 10) -- legs
+	local bodySprite = 2
+	if (player.shooting) bodySprite = 3
+	spr(bodySprite, player.pos.x - 14, player.pos.y - 10) -- body
+
+	-- laser
+	if player.shooting and frame % player.fireRate == shootStartOffset then
+		line(player.pos.x + 18, player.pos.y - 1 + laserOffset, 480, player.pos.y - 1 + laserOffset, 7)
+	end
 end
 
 function playerLoseHP(amount)

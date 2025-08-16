@@ -50,7 +50,6 @@ function _draw()
 	drawEffects("upper") -- called again to draw particles on top of sprites
 	drawPlasmaUpper()
 	drawHud()
-
 	-- framerate display
 	if (frame % 30 == 0) cpuLoad = string.format("%.0f", stat(1) * 100)
 	rectfill(436, 0, 480, 10, bgColor)
