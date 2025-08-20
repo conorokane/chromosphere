@@ -20,7 +20,7 @@ FwADJgAAMgAVDkEAz-AADeAM8AAM4AzwHD0BMg9FAP------------------xlsQEATw8EIAEzAy
 ABIwMQAvMTEyAP------------------------------------------------9dUD0xMX19
 :: gfx/.info.pod
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-OC0xNiAxMzozNzoxOCJdXQ==
+OC0yMCAwNzoyNTo0NSJdXQ==
 :: map/
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
@@ -29,7 +29,7 @@ KCJpMTYiLDMyAwAvIjABAP--------------------vxCCIpLGhpZGRlbj1mYWxzZSxwYW5feD0w
 CADSeT0wLHRpbGVfaD0zMgoAEHcKALB6b29tPTAuMjV9fQ==
 :: map/.info.pod
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-OC0xNiAxMzozNzoxOCJdXQ==
+OC0yMCAwNzoyNTo0NSJdXQ==
 :: pal/
 :: pal/0.pal
 b64$LS1bW3BvZCxiZ19jb2xvcj0wLGJsYWNrZXN0X2NvbG9yPTAsY3JlYXRlZD0iMjAyNS0wNC0x
@@ -74,7 +74,7 @@ MGVjYTQyZjAwZDg3ODI0mAEwNDIy4AAwYTFlOQBgYjU1YzY5UgAgNGE4ADExMDMOAH01ZDhjNGUw
 AQCAZmZmZmZmIik=
 :: pal/.info.pod
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTEyIDEzOjI3OjI2Iixtb2RpZmllZD0iMjAyNS0w
-OC0xNiAxMzozNzoxOCJdXQ==
+OC0yMCAwNzoyNTo0NSJdXQ==
 :: sfx/
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
@@ -84,9 +84,9 @@ Bg8gEAEgASAB8AACEAIOEAEgDyEgATAPQPDDDygP--DGD-gKD-8PgA-3Dw0B8AkBEAYOMAD-----
 -70f-wEArM-ID0AADxBA--_w8P8BAP-qUP----8p
 :: sfx/.info.pod
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-OC0xNiAxMzozNzoxOCJdXQ==
+OC0yMCAwNzoyNTo0NSJdXQ==
 :: main.lua
---[[pod_format="raw",created="2025-04-03 06:53:24",modified="2025-08-11 10:54:11",revision=444]]
+--[[pod_format="raw",created="2025-04-03 06:53:24",modified="2025-08-20 07:25:45",revision=445]]
 cd("/chromosphere")
 include ("src/chromosphere.lua")
 include ("src/vector2.lua")
@@ -95,11 +95,12 @@ include ("src/player.lua")
 include ("src/payload.lua")
 include ("src/hud.lua")
 include ("src/effects.lua")
+include ("src/enemies.lua")
 :: .info.pod
 b64$LS1bW3BvZCxhdXRob3I9Im1vbm9SQUlMIixjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2
-Iixtb2RpZmllZD0iMjAyNS0wOC0xNiAxMzozNzoxOCIsbm90ZXM9IiIscnVudGltZT0yMCx0aXRs
+Iixtb2RpZmllZD0iMjAyNS0wOC0yMCAwNzoyNTo0NSIsbm90ZXM9IiIscnVudGltZT0yMCx0aXRs
 ZT0iQ2hyb21vc3BoZXJlIix2ZXJzaW9uPSIwLjEiLHdvcmtzcGFjZXM9e3tsb2NhdGlvbj0ibWFp
-bi5sdWEjOCIsd29ya3NwYWNlX2luZGV4PTF9LHtsb2NhdGlvbj0iZ2Z4LzAuZ2Z4Iix3b3Jrc3Bh
+bi5sdWEjOSIsd29ya3NwYWNlX2luZGV4PTF9LHtsb2NhdGlvbj0iZ2Z4LzAuZ2Z4Iix3b3Jrc3Bh
 Y2VfaW5kZXg9Mn0se2xvY2F0aW9uPSJtYXAvMC5tYXAiLHdvcmtzcGFjZV9pbmRleD0zfSx7bG9j
 YXRpb249InNmeC8wLnNmeCIsd29ya3NwYWNlX2luZGV4PTR9fV1d
 :: [eoc]

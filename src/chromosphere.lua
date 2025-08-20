@@ -13,15 +13,16 @@ function _init()
 	scrollRotationScale = 0.03
 
 	window{cursor = 0}
-
-	initPlayer()
-	initPlasma()
-	initPayload()
-	initEffects()
+	
 	initGame()
 end
 
 function initGame()
+	initPlayer()
+	initPlasma()
+	initPayload()
+	initEffects()
+	initEnemies()
 	screenBounds = {left = 8, right = 472, top = 8, bottom = 262}
 	frame = 0
 	setupColorTable()
@@ -33,6 +34,7 @@ function _update()
 	updatePlasma()
 	updatePayload()
 	updateEffects()
+	updateEnemies()
 	updatePlayer()
 end
 
@@ -46,6 +48,7 @@ function _draw()
 	copyScreenToMemory()
 	drawMagneticFields()
 	drawPayload()
+	drawEnemies()
 	drawPlayer()
 	drawEffects("upper") -- called again to draw particles on top of sprites
 	drawPlasmaUpper()

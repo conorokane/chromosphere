@@ -10,3 +10,4 @@ __lua__
 #include src/payload.lua
 #include src/hud.lua
 #include src/effects.lua
+#include src/enemies.lua

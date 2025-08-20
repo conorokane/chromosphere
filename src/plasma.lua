@@ -47,9 +47,9 @@ function updatePlasma()
 	-- if (frame % 10 == 0) spawnPlasma(490, rndrange(40, 240))
 
 	-- spray test plasma
-	local sign = 1
-	if (rnd() < 0.5) sign = -1
-	if (frame % 400 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
+	-- local sign = 1
+	-- if (rnd() < 0.5) sign = -1
+	-- if (frame % 250 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 
 function drawPlasmaLower()
@@ -97,18 +97,15 @@ function drawPlasmaLower()
 				circfill(point.x, point.y, 10, 31)
 				for j = 1, 6 do
 					local randomVector = v2rotate(v2scale(scrollDirection, 0.05), rndrange(-15, 15))
-					spawnParticle(point, v2add(v2scale(scrollDirection, rndrange(0.003, 0.08)), randomVector), 0.9, rndrange(45, 60), { 31, 4, 20 })	
+					spawnParticle(point, v2add(v2scale(scrollDirection, rndrange(0.003, 0.08)), randomVector), 0.9, rndrange(45, 60), { 31, 4, 20 }, 2)	
 				end
 			end
 		end
 	end
 
-	-- player lasers
-	laserOffset = rndrange(-1, 2)
 	if player.shooting and frame % player.fireRate == shootStartOffset then
-		local laserColor = rndrange(32, 36)
-		line(player.pos.x + 16, player.pos.y - 1 + laserOffset, 480, player.pos.y - 1 + laserOffset, laserColor)
-		circfill(player.pos.x + 22, player.pos.y - 1 + laserOffset, rndrange(3, 6), laserColor + 2)
+		calculateLaserPosition()
+		drawLaserInBackground()	
 	end
 end
 

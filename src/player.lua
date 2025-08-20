@@ -118,9 +118,9 @@ function drawMagneticFields()
 			roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, magfield.color)
 		end
 		-- debug draw collider
-		for col in all(magfield.colliders) do
-			rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
-		end
+		-- for col in all(magfield.colliders) do
+		-- 	rect(col.x - magfield.colliderSize, col.y - magfield.colliderSize, col.x + magfield.colliderSize, col.y + magfield.colliderSize, 7)
+		-- end
 	end
 end
 
@@ -147,9 +147,8 @@ function drawPlayer()
 		end
 	end
 
-	-- laser
 	if player.shooting and frame % player.fireRate == shootStartOffset then
-		line(player.pos.x + 18, player.pos.y - 1 + laserOffset, 480, player.pos.y - 1 + laserOffset, 7)
+		drawLaserInForeground()
 	end
 
 	--body
