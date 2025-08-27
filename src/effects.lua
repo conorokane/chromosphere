@@ -86,7 +86,7 @@ function calculateLaserPosition()
 				if not laserHit then
 					if v2proximity(e.pos, v2make(laserStart.x + i * laserResolution, laserStart.y), 8) then
 						laserHit = true
-						laserEnd = e.pos.x - e.radius / 2
+						laserEnd = (e.pos.x - e.radius / 2) + rndrange( -3, 3)
 						lastLaserHit = { pos = { x = laserEnd, y = laserStart.y + rndrange(-2, 2) }, time = frame }
 
 						-- hit effect
