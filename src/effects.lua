@@ -6,11 +6,7 @@ end
 
 function updateEffects()
 	if (frame % heatParticlesRate == 0) then
-		-- spawn heat particles around player and payload
-		-- local spawnPoint = v2add(player.pos, v2scale(scrollDirection, - 0.06))
-		-- local offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.01, 0.01))
-		-- spawnParticleWithForce(v2add(spawnPoint, offset), offset, 1, rndrange(10, 40), { 7, 10, 25 }, v2scale(scrollDirection, 0.002))
-
+		-- spawn heat particles around payload
 		spawnPoint = v2add(payload.pos, v2scale(scrollDirection, - 0.25))
 		offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.03, 0.03))
 		spawnParticleWithForce(v2add(spawnPoint, offset), offset, 1, rndrange(10, 40), { 7, 10, 25 }, 2, v2scale(scrollDirection, 0.002))
@@ -69,6 +65,9 @@ function spawnParticleWithForce(_pos, _vel, _drag, _lifespan, _colors, _tail, _f
 	add(particles, p)
 end
 
+-- drag is the lerp amount so 1 is no drag, 0.95 is a small drag, 0.5 is huge
+-- colors is a table of 3 colors, starting with the brightest
+-- tail is the length of the particle tail
 function spawnParticle(_pos, _vel, _drag, _lifespan, _colors, _tail)
 	p = { life = 0, lifespan = _lifespan, pos = _pos, vel = _vel, colors = _colors, drag = _drag, tail = _tail }
 	add(particles, p)

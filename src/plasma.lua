@@ -35,11 +35,13 @@ function updatePlasma()
 		-- player collisions
 		if v2proximity(p.pos, player.pos, player.hitRadius + p.radius - 3) then
 			playerLoseHP(0.1)
+			if (frame % 2 == 0) spawnPlasmaCollisionParticle(p)
 		end
 
 		-- payload collisions
 		if v2proximity(p.pos, payload.pos, payload.radius) then
 			payloadLoseHP(0.1)
+			if (frame % 2 == 0) spawnPlasmaCollisionParticle(p)
 		end
 	end
 
@@ -50,6 +52,18 @@ function updatePlasma()
 	local sign = 1
 	if (rnd() < 0.5) sign = -1
 	if (frame % 250 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
+end
+
+function spawnPlasmaCollisionParticle(source)
+	local colors = { 48, 49, 50 }
+	if source.charge == 1 then
+		colors = { 52, 53, 54 }
+	end
+	local randomRotation = rndrange(-60, 60)
+	local randomOffset = v2scale(v2randomnormalized(), source.radius)
+	local newVelocity = v2rotate(source.vel, randomRotation)
+	newVelocity = v2scale(newVelocity, rndrange(-15, -5))
+	spawnParticle(v2add(source.pos, randomOffset), newVelocity, 0.9, rndrange(20, 40), colors, 2)
 end
 
 function drawPlasmaLower()
