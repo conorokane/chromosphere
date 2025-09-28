@@ -35,13 +35,13 @@ function updatePlasma()
 		-- player collisions
 		if v2proximity(p.pos, player.pos, player.hitRadius + p.radius - 3) then
 			playerLoseHP(0.1)
-			if (frame % 2 == 0) spawnPlasmaCollisionParticle(p)
+			if (frame % 3 == 0) spawnPlasmaCollisionParticle(p)
 		end
 
 		-- payload collisions
 		if v2proximity(p.pos, payload.pos, payload.radius) then
 			payloadLoseHP(0.1)
-			if (frame % 2 == 0) spawnPlasmaCollisionParticle(p)
+			if (frame % 3 == 0) spawnPlasmaCollisionParticle(p)
 		end
 	end
 
@@ -61,9 +61,9 @@ function spawnPlasmaCollisionParticle(source)
 	end
 	local randomRotation = rndrange(-60, 60)
 	local randomOffset = v2scale(v2randomnormalized(), source.radius)
-	local newVelocity = v2rotate(source.vel, randomRotation)
+	local newVelocity = v2rotate(v2normalize(source.vel), randomRotation)
 	newVelocity = v2scale(newVelocity, rndrange(-15, -5))
-	spawnParticle(v2add(source.pos, randomOffset), newVelocity, 0.9, rndrange(20, 40), colors, 2)
+	spawnParticle(v2add(source.pos, randomOffset), newVelocity, 0.85, rndrange(20, 40), colors, 1)
 end
 
 function drawPlasmaLower()
