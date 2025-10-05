@@ -20,10 +20,10 @@ function initPlayer()
 end
 
 function updatePlayer()
-	if btnp(14) or btnp(15) then
-		shootStartOffset = frame % player.fireRate
+	if btnp(14) or btnp(15) or btnp(4) then
+		shootStartOffset = frame\1 % player.fireRate
 	end
-	player.shooting = btn(14) or btn(15) -- bumpers
+	player.shooting = btn(14) or btn(15) or btn(4) -- bumpers or Z
 
 	stickLeft = {
 		x = (btn(1) or 0)/255 - (btn(0) or 0)/255,
