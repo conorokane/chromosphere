@@ -99,6 +99,11 @@ function calculateLaserPosition()
 								initialVector = v2make(0, 0)
 							end
 							spawnParticle( { x = laserEnd + 5, y = laserStart.y + rndrange(-3, 3) }, v2add(initialVector, randomVector), 0.9, rndrange(3, 10), { 37, 35, 33 }, 1)
+
+							-- damage enemy
+							if not e.damaged then -- the laser could intersect an enemy multiple times per frame?
+								takeDamage(e, 1, 3)
+							end
 						end
 					end
 				end
