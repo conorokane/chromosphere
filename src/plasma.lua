@@ -11,6 +11,7 @@ end
 function updatePlasma()
 	for p in all(plasmaField) do
 		v2simulatefast(p)
+		p.beingPushed -= 1 -- count down
 		if (p.life > p.lifespan) del(plasmaField, p)
 
 		if not p.onScreen then
@@ -27,6 +28,7 @@ function updatePlasma()
 		if player.magfieldsActive then
 			for i = 1, #magfield.colliders do
 				if v2proximity(p.pos, magfield.colliders[i], magfield.colliderSize) then
+					p.beingPushed = 10 -- counts down for a few frames
 					p.vel = v2rotate(p.vel, p.charge * magfield.strength[i] / p.radius)
 				end
 			end
@@ -72,9 +74,11 @@ function drawPlasmaLower()
 
 	-- draw bright foreground plasma balls behind the magnetic field lines (part of distortion layer)
 	for p in all(plasmaField) do
+		local plasmaColor = p.color
+		if (p.beingPushed > 0) plasmaColor = 7 
 		for i = 1, 3 do
 			local position = v2sub(p.pos, v2scale(p.vel, 4 * i))
-			circfill(position.x, position.y, p.radius - i, p.color)
+			circfill(position.x, position.y, p.radius - i, plasmaColor)
 		end
 	end
 
@@ -112,7 +116,9 @@ end
 function drawPlasmaUpper()
 	-- draw bright foreground plasma balls in front of the magnetic field lines
 	for p in all(plasmaField) do
-		circfill(p.pos.x, p.pos.y, p.radius, p.color)
+		local plasmaColor = p.color
+		if (p.beingPushed > 0) plasmaColor = 7 -- flicker when pushed
+		circfill(p.pos.x, p.pos.y, p.radius, plasmaColor)
 	end
 end
 
@@ -135,7 +141,7 @@ function sprayPlasma(direction, count, _charge, spread)
 end
 
 function createSinglePlasma(_charge)
-	local newPlasma = { vel = { v2zero }, pos = { v2zero }, color = plasmaColorPositive, life = 0, lifespan = rndrange(900, 1500), charge = _charge, radius = rndrange(4, 12), onScreen = false }
+	local newPlasma = { vel = { v2zero }, pos = { v2zero }, color = plasmaColorPositive, life = 0, lifespan = rndrange(900, 1500), charge = _charge, radius = rndrange(4, 12), onScreen = false, beingPushed = 0 }
 	if (_charge == -1) newPlasma.color = plasmaColorNegative
 	return newPlasma
 end

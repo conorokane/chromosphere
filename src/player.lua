@@ -113,7 +113,7 @@ function calculateMagneticFields()
 	end
 end
 
-function drawMagneticFields()
+function drawMagneticFields(layer)
 	if v2squarelength(stickRightSmoothed) > rightStickDeadZoneSquared then
 		for i = 0, magfield.steps - 1 do
 			local angle = 0
@@ -128,9 +128,16 @@ function drawMagneticFields()
 				angle2 = atan2(vectorToPlayer2.x, vectorToPlayer2.y)
 			end
 
-			-- field lines use color table to create inverse colors
-			roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, magfield.color)
-			roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, magfield.color)
+			if layer == "lower" then
+				if (i == magfield.steps - 1) then
+					roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 57)
+					roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 57)
+				end
+			else
+				-- field lines use color table to create inverse colors
+				roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, magfield.color)
+				roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, magfield.color)
+			end
 		end
 		-- debug draw collider
 		-- for col in all(magfield.colliders) do
