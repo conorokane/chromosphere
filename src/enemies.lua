@@ -9,10 +9,15 @@ end
 function spawnEnemy(_x, _y)
 	newEnemy = { 
 		pos = { x = _x, y = _y }, 
-		radius = rndrange(6, 12), 
+		radius = 16, 
 		randomOffset = rnd(100),
 		hitPoints = 10,
-		damaged = false }
+		damaged = false,
+		frames = { 9, 10, 11, 12 },
+		currentFrame = 1,
+		playSpeed = 0.1
+	}
+
 	add(enemies, newEnemy)
 end
 
@@ -25,12 +30,12 @@ end
 
 function drawEnemies()
 	for e in all(enemies) do
-		local enemyColor = 24
 		if e.damaged then 
-			enemyColor = 7
+			-- palette swap to damaged color
 			e.damaged = false
 		end
-		circfill(e.pos.x, e.pos.y, e.radius, enemyColor)
+		animate(e)
+		spr(e.frames[flr(e.currentFrame)], e.pos.x - e.radius, e.pos.y - e.radius)
 	end
 end
 

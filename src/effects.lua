@@ -121,3 +121,9 @@ end
 function drawLaserInForeground()
 	line(laserStart.x, laserStart.y, laserEnd, laserStart.y, 7)
 end
+
+-- increases the frame by the animation speed
+function animate(sprite)
+	sprite.currentFrame += sprite.playSpeed
+	if (sprite.currentFrame > #sprite.frames + 1) sprite.currentFrame = 1
+end
