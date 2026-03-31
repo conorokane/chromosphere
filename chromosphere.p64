@@ -2,9 +2,27 @@ picotron cartridge // www.picotron.net
 version 2
 
 :: gfx/
+:: map/
+:: pal/
+:: sfx/
+:: main.lua
+--[[pod_format="raw",created="2025-04-03 06:53:24",modified="2025-08-20 07:25:45",revision=445]]
+cd("/chromosphere")
+include ("src/chromosphere.lua")
+include ("src/vector2.lua")
+include ("src/plasma.lua")
+include ("src/player.lua")
+include ("src/payload.lua")
+include ("src/hud.lua")
+include ("src/effects.lua")
+include ("src/enemies.lua")
+:: .info.pod
+--[[pod,author="monoRAIL",created="2025-04-03 06:56:56",modified="2026-03-31 10:42:23",notes="",runtime=24,title="Chromosphere",version="0.1",workspaces={{location="main.lua#9",workspace_index=1},{location="gfx/0.gfx",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4},{location="pal/0.pal",workspace_index=7}}]]
+:: gfx/.info.pod
+--[[pod,created="2025-04-03 06:56:56",modified="2026-03-31 10:42:23"]]
 :: gfx/0.gfx
-b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
-OS0xMyAwNjozNzoxOSIscmV2aXNpb249NTAwXV1sejQA6gIAADk5AAD4HXtbMF09e2JtcD1weHUA
+b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNi0w
+My0zMSAxMDo0MjoyMyIscmV2aXNpb249NTAxXV1sejQA_AMAAJM6AAD4HXtbMF09e2JtcD1weHUA
 QyAgIATw----8yxmbGFncz0wLHBhbl94PS0wLjE4AgABGADaeT0tNix6b29tPTV9LEUAdwAW8A0G
 8A8DACAQFlkAHzBZAC3wNfAabyLwDT7wBl8hHg8gDyEO8AQNQB0eDQ7wCi0u8AQPKw8sEE4N8AUv
 Kw8sbi3wAg8qHyt_TS7QDyouHT49LyPwAB4NJQDwBw0eMA0u8ABODA0OQA8j8AINTgwNUAtBAPAO
@@ -16,21 +34,22 @@ CABQAi8iEE4IAPALPi8hLi8g8AQuPyEvIPAGPg8hEB8g8AguIC0FAFAd8AkeMAUAAQ8A-wYAPfAH
 PgANEA3wBw4QDjAN8AoO8CG_AB8PXwMAD0UAcvQjIB8k0A4PI8AO4A7QDxzwDg8-8A8N8AI-HMBs
 DkAMXQwOYCx9DB4ADJ0OMAzNDA69DjAQABNwIQDwA1AN8AI8gA3wEAzwEA7gDvAAHlEAsfAeDOAM
 0A3gDdANBwD0GAzQDdAMDQzwDR0MwAwgPHAtDA7QDD0MYG0cDgAODA0ADh0AXQwOQBcAAyYAADIA
-FQ5BAM-wAA3gDPAADOAM8Bw9ATIPRQD------------------8ZbEBAE8PBCABMwMgASMDEALzEx
-MgD-------------------------------------------------XVA9MTF9fQ==
-:: gfx/.info.pod
-b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-OS0xMyAwNzoxMDo1NiJdXQ==
-:: map/
+FQ5BAM-wAA3gDPAADOAM8Bw9AS7-F31S8AiS8ATS8AHyAODyAsByJ4KwUkeCoFJXkpBSJwIXkoCi
+F6JwBAAA-xGAkkdikFKHYqBCZ3Kw8gTA8gLg8gDwAdLwBJLwCFLwfZoAPv8mYmdSsEKXQqBSNyIn
+UpDCJ1KA0idicMIncnCyN3JwojeCcJI3knByR6KAYleCkGJ3YqCSN1KaAE-xFUJnUsBSh0KwojdC
+oKJHUpCCV2KAcleScGJXonBih3JwoldicKkA-wM3YoCCZ1KQUndyoDJHorAyF9KaAExxcidiwHI3
+cs8BYEJnkpAiV88B8AMyRxIXonAyt3JwcndycJInAhcGAP4GonCSF7KAgheikIIXoqByF5KwcheS
+oAAP8AMxD0UA-----------------7FbEBAE8PBCABMwMgASMDEALzExMgD-----------------
+--------------------------------XVA9MTF9fQ==
+:: map/.info.pod
+--[[pod,created="2025-04-03 06:56:56",modified="2026-03-31 10:42:23"]]
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
 OC0xNCAxMDo1NDozOSIscmV2aXNpb249NDEzXV1sejQAawAAAFsQAADwCHt7Ym1wPXVzZXJkYXRh
 KCJpMTYiLDMyAwAvIjABAP--------------------vxCCIpLGhpZGRlbj1mYWxzZSxwYW5feD0w
 CADSeT0wLHRpbGVfaD0zMgoAEHcKALB6b29tPTAuMjV9fQ==
-:: map/.info.pod
-b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-OS0xMyAwNzoxMDo1NiJdXQ==
-:: pal/
+:: pal/.info.pod
+--[[pod,created="2025-04-12 13:27:26",modified="2026-03-31 10:42:23"]]
 :: pal/0.pal
 b64$LS1bW3BvZCxiZ19jb2xvcj0wLGJsYWNrZXN0X2NvbG9yPTAsY3JlYXRlZD0iMjAyNS0wNC0x
 MiAxMzoyNzoyNiIsaGlkZGVuPXtbMF09ZmFsc2UsZmFsc2UsZmFsc2UsZmFsc2UsZmFsc2UsZmFs
@@ -72,35 +91,12 @@ MjY4MWI3MDA0YWEzZGMwMDhlYzZlZjAwMDkCADAwMmQCAEAwMDUxAgAxMDA3AQBAMDA5ZQIAQDAw
 YzYCAACYAAACAB4wAQARMQYAQDBlYWMfAeAwZThiMmUwMDBjYjdjYcgAUDY0NDZhqADwBWM5NTgw
 MGVjYTQyZjAwZDg3ODI0mAEwNDIy4AAwYTFlOQBgYjU1YzY5UgAgNGE4ADExMDMOAH01ZDhjNGUw
 AQCAZmZmZmZmIik=
-:: pal/.info.pod
-b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTEyIDEzOjI3OjI2Iixtb2RpZmllZD0iMjAyNS0w
-OS0xMyAwNzoxMDo1NiJdXQ==
-:: sfx/
+:: sfx/.info.pod
+--[[pod,created="2025-04-03 06:56:56",modified="2026-03-31 10:42:23"]]
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
 NC0xMyAxNDowMToxNiIscmV2aXNpb249NDEyXV1sejQAoAAAAAsKAAD-MHB4dQADKAAABAAED0AQ
 Ag4AAaABIAKgDgAPEAAN8MoBAgNADw_QBAUGB0AMkAgJCgtADJAPDA8NDw4MQAzw-wEA6-8nqgEQ
 Bg8gEAEgASAB8AACEAIOEAEgDyEgATAPQPDDDygP--DGD-gKD-8PgA-3Dw0B8AkBEAYOMAD-----
 -70f-wEArM-ID0AADxBA--_w8P8BAP-qUP----8p
-:: sfx/.info.pod
-b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2Iixtb2RpZmllZD0iMjAyNS0w
-OS0xMyAwNzoxMDo1NiJdXQ==
-:: main.lua
---[[pod_format="raw",created="2025-04-03 06:53:24",modified="2025-08-20 07:25:45",revision=445]]
-cd("/chromosphere")
-include ("src/chromosphere.lua")
-include ("src/vector2.lua")
-include ("src/plasma.lua")
-include ("src/player.lua")
-include ("src/payload.lua")
-include ("src/hud.lua")
-include ("src/effects.lua")
-include ("src/enemies.lua")
-:: .info.pod
-b64$LS1bW3BvZCxhdXRob3I9Im1vbm9SQUlMIixjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjU2OjU2
-Iixtb2RpZmllZD0iMjAyNS0wOS0xMyAwNzoxMDo1NiIsbm90ZXM9IiIscnVudGltZT0yMCx0aXRs
-ZT0iQ2hyb21vc3BoZXJlIix2ZXJzaW9uPSIwLjEiLHdvcmtzcGFjZXM9e3tsb2NhdGlvbj0ibWFp
-bi5sdWEjOSIsd29ya3NwYWNlX2luZGV4PTF9LHtsb2NhdGlvbj0iZ2Z4LzAuZ2Z4Iix3b3Jrc3Bh
-Y2VfaW5kZXg9Mn0se2xvY2F0aW9uPSJtYXAvMC5tYXAiLHdvcmtzcGFjZV9pbmRleD0zfSx7bG9j
-YXRpb249InNmeC8wLnNmeCIsd29ya3NwYWNlX2luZGV4PTR9fV1d
 :: [eoc]
