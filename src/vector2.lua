@@ -81,7 +81,7 @@ function v2lerp(v1, v2, t)
 end
 
 -- simulate a particle
--- requires a particle p = { life = 0 (optional), pos = v2zero, vel = v2zero, drag = 1 (no drag), force = v2zero (optional) }
+-- requires a particle p = { life = int, pos = v2, vel = v2, drag = 1 (no drag), force = v2 (optional) }
 function v2simulate(p)
 	if p.force then
 		p.vel = v2scale(v2add(p.vel, p.force), p.drag)

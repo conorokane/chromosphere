@@ -87,8 +87,8 @@ function dissolveScreen()
 	-- dissolve to background color
 	for i = 1, dissolveSteps do
 		local x, y = rnd(480), rnd(270)
-		local fillColor = bgColor
 		local circleRadius = rndrange(2, 4)
+		local fillColor = bgColor
 		pixelColor = pget(x,y)
 		if pixelColor == plasmaColorNegative 
 			or pixelColor == plasmaColorNegative + 1
@@ -105,7 +105,6 @@ function dissolveScreen()
 		if fillColor == payload.color then
 			local fillPos = v2add(v2make(x, y), v2scale(scrollDirection, 0.08))
 			circfill(fillPos.x, fillPos.y, rndrange(1, 3), fillColor)
-			-- circfill(x, y, circleRadius, bgColor)
 		else
   			circfill(x, y, circleRadius, fillColor)
 		end

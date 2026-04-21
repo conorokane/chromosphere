@@ -2,6 +2,7 @@ function initEffects()
 	particles = {}
 	heatParticlesRate = 4
 	lastLaserHit = { pos = v2make(0, 0), time = -5 }
+	laserColors = { 3, 11, 26, 26, 26, 27 }
 end
 
 function updateEffects()
@@ -51,11 +52,11 @@ function drawEffects(layer)
 				pset(lastLaserHit.pos.x + rndrange(-10, 10), lastLaserHit.pos.y + rndrange(-10, 10), rndrange(32, 37))
 			end
 		elseif hitTime == 3 or hitTime == 4 then
-			circfill(lastLaserHit.pos.x, lastLaserHit.pos.y, 5, 37)
+			circfill(lastLaserHit.pos.x, lastLaserHit.pos.y, 5, 26)
 		elseif hitTime == 5 or hitTime == 6 then
-			circfill(lastLaserHit.pos.x, lastLaserHit.pos.y, 4, 36)
+			circfill(lastLaserHit.pos.x, lastLaserHit.pos.y, 4, 27)
 		elseif hitTime == 7 or hitTime == 8 then
-			circfill(lastLaserHit.pos.x, lastLaserHit.pos.y, 2, 35)
+			circfill(lastLaserHit.pos.x, lastLaserHit.pos.y, 2, 3)
 		end
 	end
 end
@@ -98,7 +99,7 @@ function calculateLaserPosition()
 								randomVector = v2rotate( { x = 6, y = 0 }, rndrange(30, 120) * sign) -- two stray sparks, the rest go behind
 								initialVector = v2make(0, 0)
 							end
-							spawnParticle( { x = laserEnd + 5, y = laserStart.y + rndrange(-3, 3) }, v2add(initialVector, randomVector), 0.9, rndrange(3, 10), { 37, 35, 33 }, 1)
+							spawnParticle( { x = laserEnd + 5, y = laserStart.y + rndrange(-3, 3) }, v2add(initialVector, randomVector), 0.9, rndrange(3, 10), { 26, 11, 27 }, 1)
 
 							-- damage enemy
 							if not e.damaged then -- the laser could intersect an enemy multiple times per frame?
@@ -113,13 +114,13 @@ function calculateLaserPosition()
 end
 
 function drawLaserInBackground()
-	local laserColor = rndrange(33, 36)
+	local laserColor = laserColors[flr(rndrange(1, #laserColors + 1))]
 	line(laserStart.x, laserStart.y, laserEnd, laserStart.y, laserColor)
-	circfill(laserStart.x + 4, laserStart.y, rndrange(3, 6), laserColor + 2)
+	circfill(laserStart.x + 4, laserStart.y, rndrange(4, 9), laserColor)
 end
 
 function drawLaserInForeground()
-	line(laserStart.x, laserStart.y, laserEnd, laserStart.y, 7)
+	line(laserStart.x, laserStart.y, laserEnd, laserStart.y, 26)
 end
 
 -- increases the frame by the animation speed

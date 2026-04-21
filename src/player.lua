@@ -1,6 +1,6 @@
 function initPlayer()
-	stickLeft = {}
-	stickRight = {}
+	stickLeft = { x = 0, y = 0 }
+	stickRight = { x = 0, y = 0 }
 	stickRightSmoothed = { x = 0, y = 0 }
 	rightStickDecay = 0.2
 	rightStickDeadZoneSquared = 0.002
@@ -14,14 +14,19 @@ function initPlayer()
 		aimAngle = 0, 
 		magfieldsActive = false, 
 		maxHP = 10, 
-		hpBarTarget = { x = 0, y = -13 }, 
+		hpBarTarget = { x = 0, y = -14 }, 
 		hpBarInertia = 0.35, 
+		ringTarget = { x = - 17, y = -10 },
+		ringInertia = 0.4,
 		takingDamage = false, 
 		shooting = false, 
-		fireRate = 9 
+		fireRate = 9,
+		flashFrame = 0,
+		flashFlipY = false
 	}
 	player.currentHP = player.maxHP
 	player.hpBarPos = v2add(player.pos, player.hpBarTarget)
+	player.ringPos = v2add(player.pos, player.ringTarget)
 
 	-- magnetic fields
 	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 3, 6, 9 }, color = 47 }
@@ -40,28 +45,28 @@ function updatePlayer()
 	end
 	player.shooting = btn(14) or btn(15) or btn(4) -- bumpers or Z
 
-	stickLeft = {
+	player.stickLeft = {
 		x = (btn(1) or 0)/255 - (btn(0) or 0)/255,
 		y = (btn(3) or 0)/255 - (btn(2) or 0)/255
 	}
 
 	-- can't project mag field while shooting
-	stickRight = v2make(0, 0)
+	player.stickRight = v2make(0, 0)
 	if not player.shooting then
-		stickRight = {
+		player.stickRight = {
 			x = (btn(9) or 0)/255 - (btn(8) or 0)/255,
 			y = (btn(11) or 0)/255 - (btn(10) or 0)/255
 		}
 	end
 
-	if v2squarelength(stickRight) >= rightStickDeadZoneSquared then
-		stickRightSmoothed = stickRight
+	if v2squarelength(player.stickRight) >= rightStickDeadZoneSquared then
+		stickRightSmoothed = player.stickRight
 	else
 		stickRightSmoothed = v2lerp(stickRightSmoothed, v2zero, rightStickDecay)
 	end
 
-	player.target.x += stickLeft.x * player.speed
-	player.target.y += stickLeft.y * player.speed
+	player.target.x += player.stickLeft.x * player.speed
+	player.target.y += player.stickLeft.y * player.speed
 	player.target.x = clamp(player.target.x, screenBounds.left, screenBounds.right)
 	player.target.y = clamp(player.target.y, screenBounds.top, screenBounds.bottom)
 
@@ -73,6 +78,9 @@ function updatePlayer()
 
 	-- lerp hp bar to target
 	player.hpBarPos = v2lerp(player.hpBarPos, v2add(player.pos, player.hpBarTarget), player.hpBarInertia)
+
+	-- lerp back ring
+	player.ringPos = v2lerp(player.ringPos, v2add(player.pos, player.ringTarget), player.ringInertia)
 
 	if v2squarelength(stickRightSmoothed) < rightStickDeadZoneSquared then
 		-- reset magnetic field positions
@@ -147,33 +155,76 @@ function drawMagneticFields(layer)
 end
 
 function drawPlayer()
-	spr(5, player.pos.x - 14, player.pos.y - 10) -- legs
-	local bodySprite = 2
-	if (player.shooting) then
-		bodySprite = 3
-		if frame % player.fireRate == shootStartOffset 
-			or (frame - 1) % player.fireRate == shootStartOffset 
-			or (frame - 2) % player.fireRate == shootStartOffset then
-			bodySprite = 4 -- recoil sprite drawn for 3 frames
-		end
 
-		-- muzzle flash
-		if frame % 12 < 3 then
-			sspr(8, 0, 0, 16, 16, player.pos.x + 18, player.pos.y - 8)
-		elseif frame % 12 < 6 then
-			sspr(8, 16, 0, 16, 16, player.pos.x + 18, player.pos.y - 8)
-		elseif frame % 12 < 9 then
-			sspr(8, 0, 16, 16, 16, player.pos.x + 18, player.pos.y - 8)
-		else
-			sspr(8, 16, 16, 16, 16, player.pos.x + 18, player.pos.y - 8)
-		end
+	local bodySprite = 2
+	if v2squarelength(player.stickRight) < rightStickDeadZoneSquared then -- not using magfield
+		bodySprite = 3
+		if player.shooting then
+			if frame % player.fireRate == shootStartOffset 
+				or (frame - 1) % player.fireRate == shootStartOffset 
+				or (frame - 2) % player.fireRate == shootStartOffset then
+				bodySprite = 4 -- recoil sprite drawn for 3 frames
+			end
+
+			-- muzzle flash
+			if frame % 3 == 0 then -- only change every 3rd frame
+				local lastFrame = player.flashFrame
+				while lastFrame == player.flashFrame do -- force new frame
+					player.flashFrame = flr(rnd(5)) 
+				end
+				player.flipY = false
+				if (rnd() < 0.5) player.flipY = true
+			end
+
+			if player.flashFrame == 0 then
+				sspr(8, 0, 0, 16, 16, player.pos.x + 18, player.pos.y - 8, 16, 16, false, player.flipY)
+			elseif player.flashFrame == 1 then
+				sspr(8, 16, 0, 16, 16, player.pos.x + 18, player.pos.y - 8, 16, 16, false, player.flipY)
+			elseif player.flashFrame == 2 then
+				sspr(8, 0, 16, 16, 16, player.pos.x + 18, player.pos.y - 8, 16, 16, false, player.flipY)
+			else
+				sspr(8, 16, 16, 16, 16, player.pos.x + 18, player.pos.y - 8, 16, 16, false, player.flipY)
+			end
+		end	
 	end
 
 	if player.shooting and frame % player.fireRate == shootStartOffset then
 		drawLaserInForeground()
 	end
 
-	--body
+	-- player's back ring
+	if frame % 32 < 4 then
+		sspr(16, 0, 0, 16, 16, player.ringPos.x, player.ringPos.y)
+	elseif frame % 32 < 8 then
+		sspr(16, 16, 0, 16, 16, player.ringPos.x, player.ringPos.y)
+	elseif frame % 32 < 12 then
+		sspr(16, 0, 16, 16, 16, player.ringPos.x, player.ringPos.y)
+	elseif frame % 32 < 16 then
+		sspr(16, 16, 16, 16, 16, player.ringPos.x, player.ringPos.y)
+	elseif frame % 32 < 20 then
+		sspr(16, 0, 0, 16, 16, player.ringPos.x, player.ringPos.y, 16, 16, true, true)
+	elseif frame % 32 < 24 then
+		sspr(16, 16, 0, 16, 16, player.ringPos.x, player.ringPos.y, 16, 16, true, true)
+	elseif frame % 32 < 28 then
+		sspr(16, 0, 16, 16, 16, player.ringPos.x, player.ringPos.y, 16, 16, true, true)
+	else 
+		sspr(16, 16, 16, 16, 16, player.ringPos.x, player.ringPos.y, 16, 16, true, true)
+	end
+
+	-- animate legs based on movement
+	local legSprite = 5
+	local vectorToTarget = v2sub(player.target, player.pos)
+	if vectorToTarget.x < -3 then
+		legSprite = 6
+	elseif vectorToTarget.x > 3 then
+		legSprite = 7
+	elseif vectorToTarget.y < -3 then 
+		legSprite = 13
+	elseif vectorToTarget.y > 3 then
+		legSprite = 14
+	end
+	
+	spr(legSprite, player.pos.x - 14, player.pos.y - 9) -- legs
 	spr(bodySprite, player.pos.x - 14, player.pos.y - 10) -- body
 end
 
