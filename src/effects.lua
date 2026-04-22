@@ -36,7 +36,7 @@ function drawEffects(layer)
 
 		-- flash on first particle draw
 		if layer == "lower" and p.life == 1 then
-			circfill(p.pos.x, p.pos.y, rndrange(1, 2), pcolor)
+			circfill(p.pos.x, p.pos.y, rndrange(1, 3), pcolor)
 		end
 			
 		line(p.pos.x, p.pos.y, p.pos.x - p.vel.x * p.tail, p.pos.y - p.vel.y * p.tail, pcolor)
@@ -102,7 +102,7 @@ function calculateLaserPosition()
 							spawnParticle( { x = laserEnd + 5, y = laserStart.y + rndrange(-3, 3) }, v2add(initialVector, randomVector), 0.9, rndrange(3, 10), { 26, 11, 27 }, 1)
 
 							-- damage enemy
-							if not e.damaged then -- the laser could intersect an enemy multiple times per frame?
+							if not e.damaged then -- prevents the laser triggering multiple times per frame on large enemies
 								takeDamage(e, 1, 3)
 							end
 						end

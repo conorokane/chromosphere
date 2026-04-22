@@ -13,9 +13,9 @@ function spawnEnemy(_x, _y)
 		randomOffset = rnd(100),
 		hitPoints = 10,
 		damaged = false,
-		frames = { 9, 10, 11, 12 },
+		frames = { 9, 10, 11, 12, 11, 10 },
 		currentFrame = 1,
-		playSpeed = 0.1
+		playSpeed = 0.3
 	}
 
 	add(enemies, newEnemy)
@@ -42,10 +42,21 @@ end
 function takeDamage(e, value, push)
 	e.hitPoints -= value
 	if e.hitPoints == 0 then
+		explode(e)
 		del(enemies, e)
-		-- TODO: enemy death animation
 	else
 		e.pos.x += push
 		e.damaged = true -- makes it flash white
+	end
+end
+
+function explode(e)
+	for i = 0, 16 do
+		local randomVector = v2rotate( { x = 4, y = 0 }, rndrange(-120, 120))
+		local initialVector = v2scale(v2right, rndrange(2, 4))
+		spawnParticle( e.pos, v2add(initialVector, randomVector), 0.95, rndrange(6, 20), { 36, 35, 34 }, 1)
+	end
+	for i = 1, 3 do
+		circfill(e.pos.x + rndrange(0, e.radius), e.pos.y + rndrange(-e.radius / 2, e.radius / 2), 12, rndrange(33, 37))
 	end
 end

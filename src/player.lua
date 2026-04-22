@@ -10,7 +10,7 @@ function initPlayer()
 		aim = {x = 0, y = 0}, 
 		hitRadius = 4, 
 		target = {x = 240, y = 135}, 
-		inertia = 0.3, -- 0.15
+		inertia = 0.2, -- 0.15
 		aimAngle = 0, 
 		magfieldsActive = false, 
 		maxHP = 10, 
