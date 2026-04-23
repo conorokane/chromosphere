@@ -1,8 +1,8 @@
 function initEnemies()
 	enemies = {}
-	spawnEnemy(400, 135)
-	spawnEnemy(300, 130)
-	spawnEnemy(250, 200)
+	spawnEnemy(320, 100)
+	spawnEnemy(350, 130)
+	spawnEnemy(300, 150)
 	spawnEnemy(350, 180)
 end
 
@@ -13,9 +13,10 @@ function spawnEnemy(_x, _y)
 		randomOffset = rnd(100),
 		hitPoints = 10,
 		damaged = false,
-		frames = { 9, 10, 11, 12, 11, 10 },
+		frames = { 9, 10, 11, 12, 17, 18, 19, 20 },
 		currentFrame = 1,
-		playSpeed = 0.3
+		playSpeed = 0.2,
+		centerOffset = { x = 0, y = 5}
 	}
 
 	add(enemies, newEnemy)
@@ -35,7 +36,7 @@ function drawEnemies()
 			e.damaged = false
 		end
 		animate(e)
-		spr(e.frames[flr(e.currentFrame)], e.pos.x - e.radius, e.pos.y - e.radius)
+		spr(e.frames[flr(e.currentFrame)], e.pos.x + e.centerOffset.x - e.radius, e.pos.y + e.centerOffset.y - e.radius)
 	end
 end
 
@@ -56,7 +57,7 @@ function explode(e)
 		local initialVector = v2scale(v2right, rndrange(2, 4))
 		spawnParticle( e.pos, v2add(initialVector, randomVector), 0.95, rndrange(6, 20), { 36, 35, 34 }, 1)
 	end
-	for i = 1, 3 do
-		circfill(e.pos.x + rndrange(0, e.radius), e.pos.y + rndrange(-e.radius / 2, e.radius / 2), 12, rndrange(33, 37))
+	for i = 1, 5 do
+		circfill(e.pos.x + rndrange(0, e.radius * 3), e.pos.y + rndrange(-e.radius / 2, e.radius / 2), rndrange(10, e.radius), rndrange(33, 37))
 	end
 end

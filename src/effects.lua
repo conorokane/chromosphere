@@ -126,5 +126,5 @@ end
 -- increases the frame by the animation speed
 function animate(sprite)
 	sprite.currentFrame += sprite.playSpeed
-	if (sprite.currentFrame > #sprite.frames + 1) sprite.currentFrame = 1
+	if (sprite.currentFrame >= #sprite.frames + 1) sprite.currentFrame = 1
 end

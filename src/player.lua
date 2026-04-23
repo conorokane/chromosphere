@@ -214,13 +214,13 @@ function drawPlayer()
 	-- animate legs based on movement
 	local legSprite = 5
 	local vectorToTarget = v2sub(player.target, player.pos)
-	if vectorToTarget.x < -3 then
+	if vectorToTarget.x < -5 then
 		legSprite = 6
-	elseif vectorToTarget.x > 3 then
+	elseif vectorToTarget.x > 5 then
 		legSprite = 7
-	elseif vectorToTarget.y < -3 then 
+	elseif vectorToTarget.y < -5 then 
 		legSprite = 13
-	elseif vectorToTarget.y > 3 then
+	elseif vectorToTarget.y > 5 then
 		legSprite = 14
 	end
 	
