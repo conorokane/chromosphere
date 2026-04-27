@@ -53,9 +53,9 @@ function updatePlasma()
 	-- if (frame % 10 == 0) spawnPlasma(490, rndrange(40, 240))
 
 	-- spray test plasma
-	-- local sign = 1
-	-- if (rnd() < 0.5) sign = -1
-	-- if (frame % 250 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
+	local sign = 1
+	if (rnd() < 0.5) sign = -1
+	if (frame % 250 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 
 function drawPlasmaLower()
@@ -95,17 +95,19 @@ function drawPlasmaLower()
 
 		-- check if streak collides with player or payload
 		local steps = streakSize * 8
+		local streakHit = false
 		for i = 0, steps do
 			-- check along streak length for collisions
 			local point = v2add(streakStart, v2scale(scrollDirection, streakSize * i / steps))
-			-- debug draw points
-			-- rect(point.x - player.radius, point.y - player.radius, point.x + player.radius, point.y + player.radius, 7)
-			if v2proximity(point, player.pos, player.hitRadius) or v2proximity(point, payload.pos, payload.radius) then
-				-- flash
-				circfill(point.x, point.y, 10, 31)
-				for j = 1, 6 do
-					local randomVector = v2rotate(v2scale(scrollDirection, 0.05), rndrange(-15, 15))
-					spawnParticle(point, v2add(v2scale(scrollDirection, rndrange(0.003, 0.08)), randomVector), 0.9, rndrange(45, 60), { 31, 4, 20 }, 2)	
+			if (not streakHit) then -- prevent duplicate hits
+				if v2proximity(point, player.pos, player.hitRadius) or v2proximity(point, payload.pos, payload.radius) then
+					streakHit = true
+					-- flash
+					circfill(point.x, point.y, 10, 31)
+					for j = 1, 6 do
+						local randomVector = v2rotate(v2scale(scrollDirection, 0.05), rndrange(-15, 15))
+						spawnParticle(point, v2add(v2scale(scrollDirection, rndrange(0.003, 0.08)), randomVector), 0.9, rndrange(45, 60), { 31, 4, 20 }, 2)	
+					end
 				end
 			end
 		end

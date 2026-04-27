@@ -4,6 +4,10 @@ function initEnemies()
 	spawnEnemy(350, 130)
 	spawnEnemy(300, 150)
 	spawnEnemy(350, 180)
+	spawnEnemy(220, 100)
+	spawnEnemy(250, 130)
+	spawnEnemy(200, 150)
+	spawnEnemy(250, 180)
 end
 
 function spawnEnemy(_x, _y)
@@ -11,13 +15,13 @@ function spawnEnemy(_x, _y)
 		pos = { x = _x, y = _y }, 
 		radius = 16, 
 		randomOffset = rnd(100),
-		hitPoints = 10,
+		hitPoints = 6,
 		damaged = false,
 		frames = { 9, 10, 11, 12, 17, 18, 19, 20 },
-		currentFrame = 1,
 		playSpeed = 0.2,
 		centerOffset = { x = 0, y = 5}
 	}
+	newEnemy.currentFrame = rnd(#newEnemy.frames - 1),
 
 	add(enemies, newEnemy)
 end
@@ -59,5 +63,10 @@ function explode(e)
 	end
 	for i = 1, 5 do
 		circfill(e.pos.x + rndrange(0, e.radius * 3), e.pos.y + rndrange(-e.radius / 2, e.radius / 2), rndrange(10, e.radius), rndrange(33, 37))
+	end
+	-- camera splats
+	for i = 0, rndrange(2, 5) do
+		local splatVel = v2rotate( v2scale({ x = 4, y = 0 }, rndrange(0.5, 1.5)), rndrange(-45, 45))
+		spawnCameraSplat(e.pos, splatVel, 0.9, rndrange(20, 60), rndrange(5, 30))
 	end
 end

@@ -25,7 +25,7 @@ function initGame()
 	initEnemies()
 	screenBounds = {left = 8, right = 472, top = 8, bottom = 262}
 	frame = 0
-	setupColorTable()
+	setupColorTableFromSprite()
 end
 
 function _update()
@@ -53,11 +53,17 @@ function _draw()
 	drawPlayer()
 	drawEffects("upper") -- called again to draw particles on top of sprites
 	drawPlasmaUpper()
+	drawLightingEffects()
 	drawHud()
 	-- framerate display
 	if (frame % 30 == 0) cpuLoad = string.format("%.0f", stat(1) * 100)
 	rectfill(436, 0, 480, 10, bgColor)
 	print("CPU:"..cpuLoad.."%", 437, 2, 40)
+
+	-- color table test
+	-- local mousex, mousey = mouse()
+	-- circfill(mousex, mousey, 30, blend_bright)
+	-- circfill(mousex + 150, mousey, 30, blend_inverse)
 end
 
 function restoreScreenFromMemory()
@@ -146,3 +152,12 @@ end
 function c_set_table (draw_color, target_color, result)
 	poke (0x8000 + 64 * draw_color + target_color, result)
 end
+
+function setupColorTableFromSprite()
+	-- see: https://www.youtube.com/watch?v=Z-0EU4DU6RE
+	-- https://ko-fi.com/post/Transparency-Light-and-Shadow-in-PICOTRON--The-m-D1D41VLZEF
+	local colorTableSprite = get_spr(255)
+	memmap(colorTableSprite, 0x8000)
+	poke(0x550b, 63) -- set target mask to all 1s to allow shapes to use the color table
+end
+

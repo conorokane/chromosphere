@@ -3,6 +3,14 @@ function initEffects()
 	heatParticlesRate = 4
 	lastLaserHit = { pos = v2make(0, 0), time = -5 }
 	laserColors = { 3, 11, 26, 26, 26, 27 }
+	cameraSplats = {} -- light blobs that stick to the camera briefly
+
+	midpoint = v2make(240, 135)
+	-- special blend mode colors
+	blend_payload = 61
+	blend_bright = 62
+	blend_inverse = 45
+	blend_magfield = 47
 end
 
 function updateEffects()
@@ -16,6 +24,15 @@ function updateEffects()
 	for p in all(particles) do
 		v2simulate(p)
 		if (p.life > p.lifespan) del(particles, p)
+	end
+
+	for splat in all(cameraSplats) do
+		v2simulate(splat)
+		if splat.life > splat.lifespan + 10 then
+			del(cameraSplats, splat)
+		elseif splat.life > splat.lifespan then
+			splat.radius *= 0.95
+		end
 	end
 
 	-- rotate scroll direction
@@ -61,6 +78,41 @@ function drawEffects(layer)
 	end
 end
 
+-- effects drawn on top of everything except HUD
+function drawLightingEffects()
+	-- camera splats
+	for splat in all(cameraSplats) do
+		circfill(splat.pos.x, splat.pos.y, splat.radius, blend_bright)
+	end
+
+	-- lens flare
+	-- if player.shooting then
+	if player.shooting and (frame % 5 == 0 or frame % 5 == 2) then
+		local gunpos = v2make(player.pos.x + 22, player.pos.y)
+		-- thin stripes
+		line(0, gunpos.y, 480, gunpos.y, blend_bright)
+		line(gunpos.x - 20, gunpos.y - 30, gunpos.x + 20, gunpos.y + 30, blend_bright)
+		line(gunpos.x + 20, gunpos.y - 30, gunpos.x - 20, gunpos.y + 30, blend_bright)
+
+		rectfill(0, gunpos.y - 3, 480, gunpos.y + 3, blend_bright)
+
+		local flareVector = v2sub(gunpos, midpoint)
+		-- rounded boxes
+		rrectfill(gunpos.x - 40, gunpos.y - 3, 80, 6, 1, blend_bright) -- small horizontal
+		local segmentVector = v2scale(flareVector, 0.8)
+		rrectfill(midpoint.x + segmentVector.x - 100, midpoint.y + segmentVector.y - 10, 200, 20, 5, blend_bright) -- big horizontal
+
+		segmentVector = v2scale(flareVector, 0.85)
+		circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 5, blend_bright) -- small circle
+		segmentVector = v2scale(flareVector, 0.9)
+		circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 2, blend_bright) -- small circle
+		segmentVector = v2scale(flareVector, -1)
+		spr(254, midpoint.x + segmentVector.x - 32, midpoint.y + segmentVector.y - 32) -- hexagon
+		segmentVector = v2scale(flareVector, -1.2)
+		circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 3, blend_bright) -- small circle
+	end
+end
+
 function spawnParticleWithForce(_pos, _vel, _drag, _lifespan, _colors, _tail, _force )
 	p = { life = 0, lifespan = _lifespan, pos = _pos, vel = _vel, colors = _colors, force = _force, drag = _drag, tail = _tail }
 	add(particles, p)
@@ -72,6 +124,11 @@ end
 function spawnParticle(_pos, _vel, _drag, _lifespan, _colors, _tail)
 	p = { life = 0, lifespan = _lifespan, pos = _pos, vel = _vel, colors = _colors, drag = _drag, tail = _tail }
 	add(particles, p)
+end
+
+function spawnCameraSplat(_pos, _vel, _drag, _lifespan, _radius)
+	splat = { life = 0, lifespan = _lifespan, pos = _pos, vel = _vel, drag = _drag, radius = _radius }
+	add(cameraSplats, splat)
 end
 
 function calculateLaserPosition()

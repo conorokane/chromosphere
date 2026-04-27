@@ -5,11 +5,11 @@ function initPlayer()
 	rightStickDecay = 0.2
 	rightStickDeadZoneSquared = 0.002
 	player = {
-		pos = {x = 240, y = 135}, 
+		pos = {x = 50, y = 135}, 
 		speed = 2, 
 		aim = {x = 0, y = 0}, 
 		hitRadius = 4, 
-		target = {x = 240, y = 135}, 
+		target = {x = 50, y = 135}, 
 		inertia = 0.2, -- 0.15
 		aimAngle = 0, 
 		magfieldsActive = false, 
@@ -29,7 +29,7 @@ function initPlayer()
 	player.ringPos = v2add(player.pos, player.ringTarget)
 
 	-- magnetic fields
-	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 3, 6, 9 }, color = 47 }
+	magfield = {steps = 15, distanceScale = 0.4, heightScale = 0.3, vertsScale = 1, positions = {}, positions2 = {}, offsets = {}, offsets2 = {}, inertiaScale = 0.7, vertsScale = 1.5, secondaryFieldScale = 0.3, colliders = {}, colliderSize = 30, strength = { 3, 6, 9 } }
 
 	for i = 0, magfield.steps - 1 do
 		magfield.positions[i] = { x = player.pos.x, y = player.pos.y }
@@ -143,8 +143,8 @@ function drawMagneticFields(layer)
 				end
 			else
 				-- field lines use color table to create inverse colors
-				roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, magfield.color)
-				roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, magfield.color)
+				roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, blend_magfield)
+				roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, blend_magfield)
 			end
 		end
 		-- debug draw collider

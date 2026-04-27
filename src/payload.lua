@@ -1,5 +1,5 @@
 function initPayload()
-	payload = { pos = { x = 0, y = 0 }, color = 61, fxFrequency = 10, fxRange = 5, maxHP = 50, hpBarTarget = { x = 0, y = -30 }, hpBarInertia = 0.4, radius = 25 , takingDamage = false }
+	payload = { pos = { x = 0, y = 0 }, fxFrequency = 10, fxRange = 5, maxHP = 50, hpBarTarget = { x = 0, y = -30 }, hpBarInertia = 0.4, radius = 25 , takingDamage = false }
 	payload.currentHP = payload.maxHP
 	updatePayload()
 end
@@ -13,13 +13,13 @@ function drawPayloadLower()
 	if (frame % payload.fxFrequency == 0) then
 		local distance = rndrange(20, 20 + payload.fxRange)
 		local pos = v2add(payload.pos, v2scale(v2randomnormalized(), distance))
-		circfill(pos.x, pos.y, 20 - distance / 2, payload.color)
+		circfill(pos.x, pos.y, 20 - distance / 2, blend_payload)
 	end
-	circfill(payload.pos.x, payload.pos.y, payload.radius, payload.color)
+	circfill(payload.pos.x, payload.pos.y, payload.radius, blend_payload)
 end
 
 function drawPayload()
-	circfill(payload.pos.x, payload.pos.y, payload.radius, payload.color)
+	circfill(payload.pos.x, payload.pos.y, payload.radius, blend_payload)
 end
 
 function payloadLoseHP(amount)
