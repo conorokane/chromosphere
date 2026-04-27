@@ -16,7 +16,7 @@ function spawnEnemy(_x, _y)
 		radius = 16, 
 		randomOffset = rnd(100),
 		hitPoints = 6,
-		damaged = false,
+		damaged = 0,
 		frames = { 9, 10, 11, 12, 17, 18, 19, 20 },
 		playSpeed = 0.2,
 		centerOffset = { x = 0, y = 5}
@@ -35,12 +35,24 @@ end
 
 function drawEnemies()
 	for e in all(enemies) do
-		if e.damaged then 
-			-- palette swap to damaged color
-			e.damaged = false
+		if e.damaged > 0 then 
+			setPaletteDamage(true)
+			e.damaged -= 1
 		end
 		animate(e)
 		spr(e.frames[flr(e.currentFrame)], e.pos.x + e.centerOffset.x - e.radius, e.pos.y + e.centerOffset.y - e.radius)
+		setPaletteDamage(false)
+	end
+end
+
+-- swap colors to flash damaged enemies
+function setPaletteDamage(damaged)
+	if damaged then
+		pal(24, 7)
+		pal(8, 7)
+	else
+		pal(24, 24)
+		pal(8, 8)
 	end
 end
 
@@ -51,7 +63,7 @@ function takeDamage(e, value, push)
 		del(enemies, e)
 	else
 		e.pos.x += push
-		e.damaged = true -- makes it flash white
+		e.damaged = 5
 	end
 end
 

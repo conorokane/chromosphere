@@ -17,12 +17,12 @@ include ("src/hud.lua")
 include ("src/effects.lua")
 include ("src/enemies.lua")
 :: .info.pod
---[[pod,author="monoRAIL",created="2025-04-03 06:56:56",modified="2026-04-27 11:58:55",notes="",runtime=25,title="Chromosphere",version="0.1",workspaces={{location="main.lua#9",workspace_index=1},{location="gfx/0.gfx#255",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4},{location="pal/0.pal",workspace_index=7}}]]
+--[[pod,author="monoRAIL",created="2025-04-03 06:56:56",modified="2026-04-27 12:26:43",notes="",runtime=25,title="Chromosphere",version="0.1",workspaces={{location="main.lua#9",workspace_index=1},{location="gfx/0.gfx#255",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4},{location="pal/0.pal",workspace_index=7},{location="pal/chromosphere_ingame.pal",workspace_index=7}}]]
 :: gfx/.info.pod
---[[pod,created="2025-04-03 06:56:56",modified="2026-04-27 11:58:55"]]
+--[[pod,created="2025-04-03 06:56:56",modified="2026-04-27 12:26:43"]]
 :: gfx/0.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNi0w
-NC0yNyAxMToyMzowMyIscmV2aXNpb249NTY4XV1sejQA_wwAAPlIAAD4HXtbMF09e2JtcD1weHUA
+NC0yNyAxMjoyNTozNyIscmV2aXNpb249NTcwXV1sejQAAQ0AAAVJAAD4HXtbMF09e2JtcD1weHUA
 QyAgIATw----8yxmbGFncz0wLHBhbl94PS0wLjE4AgABGADaeT0tNix6b29tPTV9LEUAdwAW8A0G
 8A8DACAQFlkAHzBZAC3wCfBbPylPJvAHPykLLyYL8AIPKw8sQA8mDxUA8Q0BDyofKw8sEA8pPyfw
 BQ8qLysPLA8pXycfJvADGwDwDSlvJ08mLyfQDyoPKR8nHyY-Jz8mLynwAB8nDyZJAFAPJh8nMAUA
@@ -78,19 +78,19 @@ tC0PLg8vDzAPMQ8yDzMPNA81DzYPNw84DzkPOg87DzwPPQ8_Dz-xMPIw8zD0MPUw9jD3MPgw_TD6
 MPsw-DD9MP4w-w8w-xAw-xEw-xIw-xMw-xQw-xUw-xYw-xcw-xgw-xkw-xow-xsw-xww-x0w-x4w
 -x8w-yAw-yEw-yIw-yMw-yQw-yUw-yYw-ycw-ygw-ykw-yow-ysw-ywwDz8EDzwPHg8iDxAPKA8m
 DxEPOgECBB88DzoJDxgKDx8PHA8RDyMPExkAgA85Ag83DxoDHABANg83H8EAgCwfKg8pDygP4EbJ
-Pw8jDz8POw8TAw8bDgHxSxkPHgIfPw8g-y4w_SA-Oz86GQAPOx88Gf8wMP8xMP8yMP8zMP80MP81
-MP82MP83MP84MP85MPAw-zsw-zww-z0wDz4PEA4LDxkGBw8-DxcKBw8aDxwPMQ8wB58AUDEPEQQP
-qwFhDx8HDxoHaQEXNH8AGSyNAZI-DygPNw8oDz_RARMHkAHfLg84DxADDxofKP8-MU8CLFBtPTN9
-fQ==
+Pw8jDz8POw8TAw8bDgHTGQ8eAh8-DyD-LjD5IAYBFDgGARAZBQHxNx88Gf8wMP8xMP8yMP8zMP80
+MP81MP82MP83MP84MP85MP86MP87MP88MP89MA8_DxAOCw8ZBgcPPw8XCgcPGg8cDzEPMAetADEx
+DxG4AWEPHwcPGgd2ARc0jAASLJoBEQWZAZI-DygPNw8oDz_dARMHnAHfLg84DxADDxofKP8-MVsC
+LFBtPTN9fQ==
 :: map/.info.pod
---[[pod,created="2025-04-03 06:56:56",modified="2026-04-27 11:58:55"]]
+--[[pod,created="2025-04-03 06:56:56",modified="2026-04-27 12:26:43"]]
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
 OC0xNCAxMDo1NDozOSIscmV2aXNpb249NDEzXV1sejQAawAAAFsQAADwCHt7Ym1wPXVzZXJkYXRh
 KCJpMTYiLDMyAwAvIjABAP--------------------vxCCIpLGhpZGRlbj1mYWxzZSxwYW5feD0w
 CADSeT0wLHRpbGVfaD0zMgoAEHcKALB6b29tPTAuMjV9fQ==
 :: pal/.info.pod
---[[pod,created="2025-04-12 13:27:26",modified="2026-04-27 11:58:55"]]
+--[[pod,created="2025-04-12 13:27:26",modified="2026-04-27 12:26:43"]]
 :: pal/0.pal
 b64$LS1bW3BvZCxiZ19jb2xvcj0wLGJsYWNrZXN0X2NvbG9yPTAsY3JlYXRlZD0iMjAyNS0wNC0x
 MiAxMzoyNzoyNiIsaGlkZGVuPXtbMF09ZmFsc2UsZmFsc2UsZmFsc2UsZmFsc2UsZmFsc2UsZmFs
@@ -196,7 +196,7 @@ MzkCAEAwMDllAgBAMDBjNgIAAJgAAAIAHjABABExBgBAMGVhYx8B4DBlOGIyZTAwMGNiN2NhyABQ
 NjQ0NmGoAPAFYzk1ODAwZWNhNDJmMDBkODc4MjSYATA0MjLgADBhMWU5AFEyZjBiMWgAIDRhOAAg
 MTCOAJ0wMDVkOGM0ZTABAIBmZmZmZmYiKQ==
 :: sfx/.info.pod
---[[pod,created="2025-04-03 06:56:56",modified="2026-04-27 11:58:55"]]
+--[[pod,created="2025-04-03 06:56:56",modified="2026-04-27 12:26:43"]]
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
 NC0xMyAxNDowMToxNiIscmV2aXNpb249NDEyXV1sejQAoAAAAAsKAAD-MHB4dQADKAAABAAED0AQ

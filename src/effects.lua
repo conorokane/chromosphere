@@ -88,7 +88,7 @@ function drawLightingEffects()
 	-- lens flare
 	-- if player.shooting then
 	if player.shooting and (frame % 5 == 0 or frame % 5 == 2) then
-		local gunpos = v2make(player.pos.x + 22, player.pos.y)
+		local gunpos = v2make(player.pos.x + 22, player.pos.y - 1)
 		-- thin stripes
 		line(0, gunpos.y, 480, gunpos.y, blend_bright)
 		line(gunpos.x - 20, gunpos.y - 30, gunpos.x + 20, gunpos.y + 30, blend_bright)
@@ -98,11 +98,11 @@ function drawLightingEffects()
 
 		local flareVector = v2sub(gunpos, midpoint)
 		-- rounded boxes
-		rrectfill(gunpos.x - 40, gunpos.y - 3, 80, 6, 1, blend_bright) -- small horizontal
+		rrectfill(gunpos.x - 50, gunpos.y - 2, 100, 5, 2, blend_bright) -- small horizontal
 		local segmentVector = v2scale(flareVector, 0.8)
 		rrectfill(midpoint.x + segmentVector.x - 100, midpoint.y + segmentVector.y - 10, 200, 20, 5, blend_bright) -- big horizontal
 
-		segmentVector = v2scale(flareVector, 0.85)
+		segmentVector = v2scale(flareVector, 0.8)
 		circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 5, blend_bright) -- small circle
 		segmentVector = v2scale(flareVector, 0.9)
 		circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 2, blend_bright) -- small circle
@@ -159,7 +159,7 @@ function calculateLaserPosition()
 							spawnParticle( { x = laserEnd + 5, y = laserStart.y + rndrange(-3, 3) }, v2add(initialVector, randomVector), 0.9, rndrange(3, 10), { 26, 11, 27 }, 1)
 
 							-- damage enemy
-							if not e.damaged then -- prevents the laser triggering multiple times per frame on large enemies
+							if e.damaged != 5 then -- prevents the laser triggering multiple times per frame on large enemies
 								takeDamage(e, 1, 3)
 							end
 						end
