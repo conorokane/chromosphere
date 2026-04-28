@@ -41,7 +41,7 @@ end
 
 function updatePlayer()
 	if btnp(14) or btnp(15) or btnp(4) then
-		shootStartOffset = frame\1 % player.fireRate
+		shootStartOffset = frame % player.fireRate
 	end
 	player.shooting = btn(14) or btn(15) or btn(4) -- bumpers or Z
 

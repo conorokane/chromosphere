@@ -1,35 +1,38 @@
 function initEnemies()
 	enemies = {}
-	spawnEnemy(320, 100)
-	spawnEnemy(350, 130)
-	spawnEnemy(300, 150)
-	spawnEnemy(350, 180)
-	spawnEnemy(220, 100)
-	spawnEnemy(250, 130)
-	spawnEnemy(200, 150)
-	spawnEnemy(250, 180)
 end
 
-function spawnEnemy(_x, _y)
+function spawnEnemy(_x, _y, _speed, _frequency, _amplitude, _delay)
 	newEnemy = { 
 		pos = { x = _x, y = _y }, 
 		radius = 16, 
-		randomOffset = rnd(100),
-		hitPoints = 6,
+		hitPoints = 3,
 		damaged = 0,
 		frames = { 9, 10, 11, 12, 17, 18, 19, 20 },
 		playSpeed = 0.2,
-		centerOffset = { x = 0, y = 5}
+		centerOffset = { x = 0, y = 5},
+		vel = v2make(_speed, 0),
+		frequency = _frequency,
+		amplitude = _amplitude,
+		delay = _delay,
+		life = 0
 	}
-	newEnemy.currentFrame = rnd(#newEnemy.frames - 1),
-
+	newEnemy.currentFrame = rnd(#newEnemy.frames - 1)
 	add(enemies, newEnemy)
 end
 
 function updateEnemies()
+	-- test spawn
+	if (frame % 450 == 50) then
+		local randomY = rndrange(50, 170) -- higher top value because they always start curving down
+		local randomX = rndrange(520, 700) -- further off screen so they sometimes enter curving up
+		for i = 6, 1, -1 do
+			spawnEnemy(randomX, randomY, -0.8, 0.002, 0.4, i * 30)
+		end
+	end
+
 	for e in all(enemies) do
-		e.pos.x += sin((t() + e.randomOffset) * 0.3) * 0.1
-		e.pos.y += cos((t() + e.randomOffset) * 0.3) * 0.2
+		moveEnemy(e)
 	end
 end
 
@@ -43,6 +46,17 @@ function drawEnemies()
 		spr(e.frames[flr(e.currentFrame)], e.pos.x + e.centerOffset.x - e.radius, e.pos.y + e.centerOffset.y - e.radius)
 		setPaletteDamage(false)
 	end
+end
+
+function moveEnemy(e)
+	-- sine wave motion
+	if e.delay < 0 then
+		v2simulatefast(e)
+		e.vel = v2rotate(e.vel, cos(e.life * e.frequency) * e.amplitude)
+	else
+		e.delay -= 1
+	end
+	if (e.pos.x < -30) del(enemies, e)
 end
 
 -- swap colors to flash damaged enemies
@@ -77,7 +91,7 @@ function explode(e)
 		circfill(e.pos.x + rndrange(0, e.radius * 3), e.pos.y + rndrange(-e.radius / 2, e.radius / 2), rndrange(10, e.radius), rndrange(33, 37))
 	end
 	-- camera splats
-	for i = 0, rndrange(2, 5) do
+	for i = 0, rndrange(1, 3) do
 		local splatVel = v2rotate( v2scale({ x = 4, y = 0 }, rndrange(0.5, 1.5)), rndrange(-45, 45))
 		spawnCameraSplat(e.pos, splatVel, 0.9, rndrange(20, 60), rndrange(5, 30))
 	end

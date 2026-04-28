@@ -90,7 +90,7 @@ function drawLightingEffects()
 	if player.shooting and (frame % 5 == 0 or frame % 5 == 2) then
 		local gunpos = v2make(player.pos.x + 22, player.pos.y - 1)
 		-- thin stripes
-		line(0, gunpos.y, 480, gunpos.y, blend_bright)
+		line(gunpos.x - 100, gunpos.y, gunpos.x + 100, gunpos.y, blend_bright)
 		line(gunpos.x - 20, gunpos.y - 30, gunpos.x + 20, gunpos.y + 30, blend_bright)
 		line(gunpos.x + 20, gunpos.y - 30, gunpos.x - 20, gunpos.y + 30, blend_bright)
 

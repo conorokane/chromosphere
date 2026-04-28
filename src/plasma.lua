@@ -55,7 +55,7 @@ function updatePlasma()
 	-- spray test plasma
 	local sign = 1
 	if (rnd() < 0.5) sign = -1
-	if (frame % 250 == 0) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
+	if (frame % 300 == 20) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 
 function drawPlasmaLower()
