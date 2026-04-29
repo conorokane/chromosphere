@@ -11,6 +11,8 @@ function initEffects()
 	blend_bright = 62
 	blend_inverse = 45
 	blend_magfield = 47
+	dotPatternThick = 0x1040
+	dotPatternThin = 0x5A5A
 end
 
 function updateEffects()

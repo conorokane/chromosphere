@@ -64,6 +64,11 @@ function _draw()
 	-- local mousex, mousey = mouse()
 	-- circfill(mousex, mousey, 30, blend_bright)
 	-- circfill(mousex + 150, mousey, 30, blend_inverse)
+
+	-- test fillp
+	-- fillp(0xA5A5)
+	-- circfill(100, 100, 50, 2)
+	-- fillp()
 end
 
 function restoreScreenFromMemory()
@@ -85,7 +90,10 @@ function distortScreen()
 	for i = 1, distortSteps do
 		local x, y = rnd(480), rnd(270)
 			-- rectfill(x - 2, y - 2, x + 2, y + 2, pget(x, y)) -- werxzy style
+			local bgColor = pget(x,y)
+			if (bgColor == blend_payload) fillp(dotPatternThin)
 			circfill(x + rndrange(-3, 3), y + rndrange(-3, 3), 2, pget(x, y))
+			fillp()
 	end
 end
 
@@ -104,16 +112,19 @@ function dissolveScreen()
 			or pixelColor == plasmaColorPositive + 2
 		then
 			fillColor = pixelColor + 1
-		elseif	pixelColor == payload.color then
-			fillColor = payload.color
+		elseif	pixelColor == blend_payload then
+			fillColor = blend_payload
+			fillp(dotPatternThick)
 	  	end
 
-		if fillColor == payload.color then
-			local fillPos = v2add(v2make(x, y), v2scale(scrollDirection, 0.08))
-			circfill(fillPos.x, fillPos.y, rndrange(1, 3), fillColor)
+		if fillColor == blend_payload then
+			-- offset circle position to make payload trail move with the scroll direction
+			local fillPos = v2add(v2make(x, y), v2scale(scrollDirection, 0.15))
+			circfill(fillPos.x, fillPos.y, rndrange(1, 4), fillColor)
 		else
   			circfill(x, y, circleRadius, fillColor)
 		end
+		fillp() -- reset fill pattern
 	end
 end
 

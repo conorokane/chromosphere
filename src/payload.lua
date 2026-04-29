@@ -5,7 +5,7 @@ function initPayload()
 end
 
 function updatePayload()
-	payload.pos = { x = 80 + sin(t() * 0.01) * 50, y = 135 + cos(t() * 0.02) * 50 }
+	payload.pos = { x = 100 + sin(t() * 0.01) * 50, y = 135 + cos(t() * 0.02) * 50 }
 end
 
 function drawPayloadLower()
