@@ -40,10 +40,17 @@ function initPlayer()
 end
 
 function updatePlayer()
-	if btnp(14) or btnp(15) or btnp(4) then
-		shootStartOffset = frame % player.fireRate
+	if (not player.shooting) then
+		if btn(14) or btn(15) or btn(4) then
+			-- first shoot frame
+			shootStartOffset = frame % player.fireRate
+			sfx(0, 1) -- start laser audio on channel 1
+		end
 	end
 	player.shooting = btn(14) or btn(15) or btn(4) -- bumpers or Z
+
+	if (not player.shooting) sfx(-1, 1) -- stop playing channel 1
+
 
 	player.stickLeft = {
 		x = (btn(1) or 0)/255 - (btn(0) or 0)/255,
