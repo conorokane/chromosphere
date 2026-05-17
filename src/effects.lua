@@ -13,6 +13,7 @@ function initEffects()
 	blend_magfield = 47
 	dotPatternThick = 0x1040
 	dotPatternThin = 0x5A5A
+	dotPatternVeryThin = 0xFFFE
 end
 
 function updateEffects()
