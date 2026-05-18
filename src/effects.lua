@@ -66,17 +66,18 @@ function drawEffects(layer)
 
 	if layer == "lower" then
 		-- enemy type 1 connection lines
-		-- connecting lines
 		for e in all(enemies) do
-			if e.life % 3 == 0 then
-				for i = 1, #enemies do
-					if enemies[i] == e  and i < #enemies then
-						if enemies[i + 1].type == 1 then
-							fillp(dotPatternThin)
-							line(e.pos.x, e.pos.y, enemies[i + 1].pos.x, enemies[i + 1].pos.y, blend_bright)
-							fillp()
+			if e.type == 1 then
+				if e.life % 3 == 0 then
+					for i = 1, #enemies do
+						if enemies[i] == e  and i < #enemies then
+							if enemies[i + 1].type == 1 then
+								fillp(dotPatternThin)
+								line(e.pos.x, e.pos.y, enemies[i + 1].pos.x, enemies[i + 1].pos.y, blend_bright)
+								fillp()
+							end
+							break -- exit for loop when self is found
 						end
-						break -- exit for loop when self is found
 					end
 				end
 			end

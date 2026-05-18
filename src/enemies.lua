@@ -16,6 +16,7 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 			frequency = _frequency,
 			amplitude = _amplitude,
 			delay = _delay,
+			life = 0,
 			move = function(self)
 				-- sine wave motion
 				if self.delay < 0 then
@@ -36,7 +37,7 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 		newEnemy = {
 			pos = { x = _x + rnd(20), y = _y + rndrange(-20, 20)},
 			target = { x = _x, y = _y },
-			radius = 6,
+			radius = 8,
 			hitPoints = 2,
 			damaged = 0,
 			frequency = _frequency,
@@ -53,10 +54,10 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 					-- every 3rd jump is towards the payload
 					if (self.life > self.frequency * 2) self.life = 0
 					if self.life == 0 then
-						local vectorToPayload = v2scale(v2normalize(v2sub(payload.pos, self.target)), self.amplitude * 1.5)
+						local vectorToPayload = v2scale(v2normalize(v2sub(payload.pos, self.target)), self.amplitude)
 						self.target = v2add(self.target, vectorToPayload)
 					else
-						self.target = v2add(self.target, v2scale(v2randomnormalized(), self.amplitude)) -- random jump
+						self.target = v2add(self.target, v2scale(v2randomnormalized(), rndrange(self.amplitude/2, self.amplitude))) -- random jump
 						if (self.target.y < 30) self.target.y += 30 -- avoid edges
 						if (self.target.y > 240) self.target.y -= 30
 						if (self.target.x < payload.pos.x) self.target.x += 10
@@ -68,8 +69,11 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 		
 	
 			end,
-			draw = function(self)				
-				circfill(self.pos.x, self.pos.y, self.radius, 1)
+			draw = function(self)
+				local sprite = 24
+				if (self.pos.x - self.target.x > 1) sprite = 25
+				if (self.pos.x - self.target.x < -1) sprite = 26			
+				spr(sprite, self.pos.x - 16, self.pos.y - 16)
 			end
 		}
 	end
@@ -82,23 +86,23 @@ function updateEnemies()
 		e:move()
 	end
 
-	-- test enemie spawns
-
-	-- if (frame % 450 == 10) then
-		-- type 0 enemy wave
-		-- local randomY = rndrange(50, 170) -- higher top value because they always start curving down
-		-- local randomX = rndrange(520, 700) -- further off screen so they sometimes enter curving up
-		-- for i = 6, 1, -1 do
-		-- 	spawnEnemy(0, randomX, randomY, -0.8, 0.002, 0.4, i * 30)
-		-- end
-	-- end
-
-	if frame % 600 == 60 then
-	-- type 1 enemy
-		for i = 0, 6 do
-			spawnEnemy(1, 490, 30, 0.1, 40, 20, i * 2)
+	-- test enemy spawns
+	
+	-- type 0 enemy wave
+	if (frame % 450 == 10) then
+		local randomY = rndrange(50, 170) -- higher top value because they always start curving down
+		local randomX = rndrange(520, 700) -- further off screen so they sometimes enter curving up
+		for i = 6, 1, -1 do
+			spawnEnemy(0, randomX, randomY, -0.8, 0.002, 0.4, i * 30)
 		end
 	end
+
+	-- type 1 enemy clump
+	-- if frame % 700 == 60 then
+	-- 	for i = 0, 6 do
+	-- 		spawnEnemy(1, 490, 135, 0.1, 40, 20, i * 2)
+	-- 	end
+	-- end
 end
 
 function drawEnemies()
