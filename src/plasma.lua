@@ -53,9 +53,9 @@ function updatePlasma()
 	-- if (frame % 10 == 0) spawnPlasma(490, rndrange(40, 240))
 
 	-- spray test plasma
-	-- local sign = 1
-	-- if (rnd() < 0.5) sign = -1
-	-- if (frame % 300 == 20) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
+	local sign = 1
+	if (rnd() < 0.5) sign = -1
+	if (frame % 300 == 20) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 
 function drawPlasmaLower()
@@ -123,7 +123,7 @@ function drawPlasmaUpper()
 	-- draw bright foreground plasma balls in front of the magnetic field lines
 	for p in all(plasmaField) do
 		local plasmaColor = p.color
-		if (p.beingPushed > 0) plasmaColor = 7 -- flicker when pushed
+		if (p.beingPushed > 0) plasmaColor = 7 -- bright white when pushed
 		circfill(p.pos.x, p.pos.y, p.radius, plasmaColor)
 	end
 end

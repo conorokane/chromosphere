@@ -17,12 +17,12 @@ include ("src/hud.lua")
 include ("src/effects.lua")
 include ("src/enemies.lua")
 :: .info.pod
---[[pod,author="monoRAIL",created="2025-04-03 06:56:56",modified="2026-05-02 06:07:09",notes="",runtime=26,title="Chromosphere",version="0.1",workspaces={{location="main.lua#9",workspace_index=1},{location="gfx/0.gfx#255",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4}}]]
+--[[pod,author="monoRAIL",created="2025-04-03 06:56:56",modified="2026-05-18 08:30:22",notes="",runtime=26,title="Chromosphere",version="0.1",workspaces={{location="main.lua#9",workspace_index=1},{location="gfx/0.gfx#255",workspace_index=2},{location="map/0.map",workspace_index=3},{location="sfx/0.sfx",workspace_index=4},{location="pal/0.pal",workspace_index=7}}]]
 :: gfx/.info.pod
---[[pod,created="2025-04-03 06:56:56",modified="2026-05-02 06:07:09"]]
+--[[pod,created="2025-04-03 06:56:56",modified="2026-05-18 08:30:22"]]
 :: gfx/0.gfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNi0w
-NC0yNyAxMjoyNTozNyIscmV2aXNpb249NTcwXV1sejQAAQ0AAAVJAAD4HXtbMF09e2JtcD1weHUA
+NS0xOCAwODowNzo0MCIscmV2aXNpb249NTgxXV1sejQAPQ0AAE9JAAD4HXtbMF09e2JtcD1weHUA
 QyAgIATw----8yxmbGFncz0wLHBhbl94PS0wLjE4AgABGADaeT0tNix6b29tPTV9LEUAdwAW8A0G
 8A8DACAQFlkAHzBZAC3wCfBbPylPJvAHPykLLyYL8AIPKw8sQA8mDxUA8Q0BDyofKw8sEA8pPyfw
 BQ8qLysPLA8pXycfJvADGwDwDSlvJ08mLyfQDyoPKR8nHyY-Jz8mLynwAB8nDyZJAFAPJh8nMAUA
@@ -72,25 +72,26 @@ BzIPRQD--------------4dbEBAE8PBCABMwMgASMDEALzExMgD-------------------------
 ------------------------CfFOQEAE8P_--z4U8Av_FvAJ-hjwCP4Y8Af_GvAG-hrwBf4c8AT_
 HPAD-h7wAv4e8AH_IPAA-iDg-iLQ-iLA-iSw-iSg-iaQ-iaA-ihw-ihg-ipQ-ipA-iww-iwg-i4Q
 AwARIA8AEUAbABFgJwARgDMAEaA-ABHASwAS4FgAI-ABaAATA3gAEwWIABMHmACrCf4W8Av_FPD-
-f_UA8wYtNy4yMTY0NDk2NjAwNjM1ZS0wMTb5AEgtMS4zAQACCAEcMwcB8yYAAQIDBAUGBwgJCgsM
-DQ4PDw8QDxEPEg8TDxQPFQ8WDxcPGA8ZDxoPGw8cDx0PHg8fDyAPIZQzsSUPJg8nDygPKQ8q9UXw
-tC0PLg8vDzAPMQ8yDzMPNA81DzYPNw84DzkPOg87DzwPPQ8_Dz-xMPIw8zD0MPUw9jD3MPgw_TD6
-MPsw-DD9MP4w-w8w-xAw-xEw-xIw-xMw-xQw-xUw-xYw-xcw-xgw-xkw-xow-xsw-xww-x0w-x4w
--x8w-yAw-yEw-yIw-yMw-yQw-yUw-yYw-ycw-ygw-ykw-yow-ysw-ywwDz8EDzwPHg8iDxAPKA8m
-DxEPOgECBB88DzoJDxgKDx8PHA8RDyMPExkAgA85Ag83DxoDHABANg83H8EAgCwfKg8pDygP4EbJ
-Pw8jDz8POw8TAw8bDgHTGQ8eAh8-DyD-LjD5IAYBFDgGARAZBQHxNx88Gf8wMP8xMP8yMP8zMP80
-MP81MP82MP83MP84MP85MP86MP87MP88MP89MA8_DxAOCw8ZBgcPPw8XCgcPGg8cDzEPMAetADEx
-DxG4AWEPHwcPGgd2ARc0jAASLJoBEQWZAZI-DygPNw8oDz_dARMHnAHfLg84DxADDxofKP8-MVsC
-LFBtPTN9fQ==
+f_UAQy0zLjXoAFYxNS44MwEAAvYAHDb1APMmAAECAwQFBgcICQoLDA0ODw8PEA8RDxIPEw8UDxUP
+Fg8XDxgPGQ8aDxsPHA8dDx4PHw8gDyGCM7ElDyYPJw8oDykPKuNF8LQtDy4PLw8wDzEPMg8zDzQP
+NQ82DzcPOA85DzoPOw88Dz0PPg8-8TDyMPMw9DD1MPYw9zD4MPkw_jD7MPww-TD_MP8PMP8QMP8R
+MP8SMP8TMP8UMP8VMP8WMP8XMP8YMP8ZMP8aMP8bMP8cMP8dMP8eMP8fMP8gMP8hMP8iMP8jMP8k
+MP8lMP8mMP8nMP8oMP8pMP8qMP8rMP8sMA8-BA88Dx4PIg8QDygPJg8RDzoBAgQfPA86CQ8YCg8f
+DxwPEQ8jDxMZAIAPOQIPNw8aAxwAQDYPNx-BAIAsHyoPKQ8oD85GyT8PIw8-DzsPEwMPGw4B0xkP
+HgIfPw8g-y4w_SAGARQ4BgEQGQUB8TUfPBn-MDD-MTD-MjD-MzD-NDD-NTD-NjD-NzD-ODD-OTD-
+OjD-OzD-PDD-PTAPPg8QDgsPGQYXDxcKBw8aDxwPMQ8wB6sAMTEPEbYBYQ8fBw8aB3QBFjSKABIH
+lwHCBQ8rBw8-DygPNw8oJAAjMgeXAaAuDzgPEAMPGh8osQAhDznwAQDIARAs8AHwDgkPGw8QDxIC
+Dx8PIgMCDyEPFQ8nBQ8yDzkPNwsDnDRWAg82Dyb8ABgfCAJTLQ84Dy-_ABc5BAJyJg8hDycPOwYC
+D7cCGlBtPTZ9fQ==
 :: map/.info.pod
---[[pod,created="2025-04-03 06:56:56",modified="2026-05-02 06:07:09"]]
+--[[pod,created="2025-04-03 06:56:56",modified="2026-05-18 08:30:22"]]
 :: map/0.map
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNS0w
 OC0xNCAxMDo1NDozOSIscmV2aXNpb249NDEzXV1sejQAawAAAFsQAADwCHt7Ym1wPXVzZXJkYXRh
 KCJpMTYiLDMyAwAvIjABAP--------------------vxCCIpLGhpZGRlbj1mYWxzZSxwYW5feD0w
 CADSeT0wLHRpbGVfaD0zMgoAEHcKALB6b29tPTAuMjV9fQ==
 :: pal/.info.pod
---[[pod,created="2025-04-12 13:27:26",modified="2026-05-02 06:07:09"]]
+--[[pod,created="2025-04-12 13:27:26",modified="2026-05-18 08:30:22"]]
 :: pal/0.pal
 b64$LS1bW3BvZCxiZ19jb2xvcj0wLGJsYWNrZXN0X2NvbG9yPTAsY3JlYXRlZD0iMjAyNS0wNC0x
 MiAxMzoyNzoyNiIsaGlkZGVuPXtbMF09ZmFsc2UsZmFsc2UsZmFsc2UsZmFsc2UsZmFsc2UsZmFs
@@ -196,7 +197,7 @@ MzkCAEAwMDllAgBAMDBjNgIAAJgAAAIAHjABABExBgBAMGVhYx8B4DBlOGIyZTAwMGNiN2NhyABQ
 NjQ0NmGoAPAFYzk1ODAwZWNhNDJmMDBkODc4MjSYATA0MjLgADBhMWU5AFEyZjBiMWgAIDRhOAAg
 MTCOAJ0wMDVkOGM0ZTABAIBmZmZmZmYiKQ==
 :: sfx/.info.pod
---[[pod,created="2025-04-03 06:56:56",modified="2026-05-02 06:07:09"]]
+--[[pod,created="2025-04-03 06:56:56",modified="2026-05-18 08:30:22"]]
 :: sfx/0.sfx
 b64$LS1bW3BvZCxjcmVhdGVkPSIyMDI1LTA0LTAzIDA2OjUzOjI0Iixtb2RpZmllZD0iMjAyNi0w
 NS0wMiAwNjowNzowOSIscmV2aXNpb249NDIyXV1sejQAowEAALwKAAD-MHB4dQADKAAABAAED0AQ

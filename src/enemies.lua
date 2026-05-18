@@ -49,7 +49,7 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 				self.pos = v2lerp(self.pos, self.target, self.speed)
 				-- randomize target
 				self.life += 1
-				if (self.life + self.delay) % self.frequency == self.frequency - 1 then
+				if (self.life + self.delay) % self.frequency == self.frequency - 1 then		
 					-- every 3rd jump is towards the payload
 					if (self.life > self.frequency * 2) self.life = 0
 					if self.life == 0 then
@@ -59,21 +59,17 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 						self.target = v2add(self.target, v2scale(v2randomnormalized(), self.amplitude)) -- random jump
 						if (self.target.y < 30) self.target.y += 30 -- avoid edges
 						if (self.target.y > 240) self.target.y -= 30
+						if (self.target.x < payload.pos.x) self.target.x += 10
 					end
+					-- spray some particles backwards
+					local sprayVector = v2normalize(v2sub(self.pos, self.target))
+					spawnParticle(self.pos, v2scale(sprayVector, 2), 0.90, 20, { 49, 50, 51 }, 0.5)
 				end
-
+		
+	
 			end,
 			draw = function(self)				
 				circfill(self.pos.x, self.pos.y, self.radius, 1)
-				-- connecting lines
-				for i = 1, #enemies do
-					if enemies[i] == self  and i < #enemies then
-						if enemies[i + 1].type == 1 then
-							line(self.pos.x, self.pos.y, enemies[i + 1].pos.x, enemies[i + 1].pos.y, 1)
-						end
-						break -- exit for loop when self is found
-					end
-				end
 			end
 		}
 	end
@@ -100,7 +96,7 @@ function updateEnemies()
 	if frame % 600 == 60 then
 	-- type 1 enemy
 		for i = 0, 6 do
-			spawnEnemy(1, 490, 30, 0.1, 40, 30, i * 2)
+			spawnEnemy(1, 490, 30, 0.1, 40, 20, i * 2)
 		end
 	end
 end

@@ -9,6 +9,7 @@ function initEffects()
 	-- special blend mode colors
 	blend_payload = 61
 	blend_bright = 62
+	blend_dark = 63
 	blend_inverse = 45
 	blend_magfield = 47
 	dotPatternThick = 0x1040
@@ -63,6 +64,25 @@ function drawEffects(layer)
 		line(p.pos.x, p.pos.y, p.pos.x + rndrange(-2, 2) - p.vel.x * p.tail, p.pos.y + rndrange(-2, 2) - p.vel.y * p.tail, pcolor)
 	end
 
+	if layer == "lower" then
+		-- enemy type 1 connection lines
+		-- connecting lines
+		for e in all(enemies) do
+			if e.life % 3 == 0 then
+				for i = 1, #enemies do
+					if enemies[i] == e  and i < #enemies then
+						if enemies[i + 1].type == 1 then
+							fillp(dotPatternThin)
+							line(e.pos.x, e.pos.y, enemies[i + 1].pos.x, enemies[i + 1].pos.y, blend_bright)
+							fillp()
+						end
+						break -- exit for loop when self is found
+					end
+				end
+			end
+		end
+	end
+
 	if layer == "upper" then
 		-- laser flash
 		local hitTime = frame - lastLaserHit.time
@@ -77,7 +97,7 @@ function drawEffects(layer)
 			circfill(lastLaserHit.pos.x, lastLaserHit.pos.y, 4, 27)
 		elseif hitTime == 7 or hitTime == 8 then
 			circfill(lastLaserHit.pos.x, lastLaserHit.pos.y, 2, 3)
-		end
+		end		
 	end
 end
 
