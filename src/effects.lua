@@ -2,7 +2,7 @@ function initEffects()
 	particles = {}
 	heatParticlesRate = 4
 	lastLaserHit = { pos = v2make(0, 0), time = -5 }
-	laserColors = { 3, 11, 26, 26, 26, 27 }
+	laserColors = { 3, 11, 11, 11, 27 }
 	cameraSplats = {} -- light blobs that stick to the camera briefly
 
 	midpoint = v2make(240, 135)
