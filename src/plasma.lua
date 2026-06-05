@@ -48,14 +48,6 @@ function updatePlasma()
 			payloadLoseHP(0.1)
 		end
 	end
-
-	-- spawn random plasma
-	-- if (frame % 10 == 0) spawnPlasma(490, rndrange(40, 240))
-
-	-- spray test plasma
-	-- local sign = 1
-	-- if (rnd() < 0.5) sign = -1
-	-- if (frame % 400 == 20) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 
 function drawPlasmaLower()

@@ -20,18 +20,30 @@ end
 
 function drawPayload()
 	-- lower half of elipses
-	elipse (payload.pos.x, payload.pos.y, 37, 37 * sin(frame * 0.0013) / 2, 20, 0.5 + (frame * 0.0013), 26, 2)
-	elipse (payload.pos.x, payload.pos.y, 40, 40 * sin(frame * 0.0012) / 2, 20, 0.5 + (frame * 0.0012), 11, 2)
-	elipse (payload.pos.x, payload.pos.y, 43, 43 * sin(frame * 0.0011) / 2, 20, 0.5 + (frame * 0.0011), 27, 2)
-	elipse (payload.pos.x, payload.pos.y, 46, 46 * sin(frame * 0.001) / 2, 20, 0.5 + (frame * 0.001), 3, 2)
+	local dt = frame * 0.003
+	local col
+	for i = 0, 5 do
+		col = 19
+		if (i == 0) col = 26
+		if (i == 1) col = 11
+		if (i ==2 or i == 3) col = 3
+		fillp(dotPatternScanLinesDiagonal)
+		elipse (payload.pos.x, payload.pos.y, 40 - i * 2, (40 - i * 2) * sin(dt / 12 - (i * 0.02)), 10, 0.5 + dt - i * 0.02, col, 2)
+		fillp()
+	end
 	-- payload graphics
 	circfill(payload.pos.x, payload.pos.y, payload.radius, blend_payload)
 
 	-- upper half of elipses
-	elipse (payload.pos.x, payload.pos.y, 37, 37 * sin(frame * 0.0013) / 2, 20, frame * 0.0013, 26, 2)
-	elipse (payload.pos.x, payload.pos.y, 40, 40 * sin(frame * 0.0012) / 2, 20, frame * 0.0012, 11, 2)
-	elipse (payload.pos.x, payload.pos.y, 43, 43 * sin(frame * 0.0011) / 2, 20, frame * 0.0011, 27, 2)
-	elipse (payload.pos.x, payload.pos.y, 46, 46 * sin(frame * 0.001) / 2, 20, frame * 0.001, 3, 2)
+	for i = 5, 0, - 1 do
+		col = 19
+		if (i == 0) col = 26
+		if (i == 1) col = 11
+		if (i ==2 or i == 3) col = 3
+		fillp(dotPatternScanLinesDiagonal)
+		elipse (payload.pos.x, payload.pos.y, 40 - i * 2, (40 - i * 2) * sin(dt / 12 - (i * 0.02)), 10, dt - i * 0.02, col, 2)
+		fillp()
+	end
 end
 
 function payloadLoseHP(amount)

@@ -36,6 +36,8 @@ function _update()
 	updateEffects()
 	updateEnemies()
 	updatePlayer()
+
+	testSpawns()
 end
 
 function _draw()
@@ -162,8 +164,8 @@ end
 
 function drawCPU()
 	if (frame % 30 == 0) cpuLoad = string.format("%.0f", stat(1) * 100)
-	rectfill(436, 0, 480, 10, bgColor)
-	print("CPU:"..cpuLoad.."%", 437, 2, 40)
+	rectfill(436, 260, 480, 270, bgColor)
+	print("CPU:"..cpuLoad.."%", 437, 262, 40)
 end
 
 function drawLogo()
@@ -204,5 +206,33 @@ function drawLogo()
 	spr(71, left + spacing * 9 + c + h + r + o + m + o + s + p + h, top)
 	spr(66, left + spacing * 10 + c + h + r + o + m + o + s + p + h + e, top)
 	spr(71, left + spacing * 11 + c + h + r + o + m + o + s + p + h + e + r, top)
+end
+
+function testSpawns()
+	-- test enemy spawns
+	
+	-- type 0 enemy wave
+	if (frame % 450 == 10) then
+		local randomY = rndrange(50, 170) -- higher top value because they always start curving down
+		local randomX = rndrange(520, 700) -- further off screen so they sometimes enter curving up
+		for i = 5, 1, -1 do
+			spawnEnemy(0, randomX, randomY, -0.8, 0.002, 0.4, i * 30)
+		end
+	end
+
+	-- type 1 enemy clump
+	if frame % 700 == 60 then
+		for i = 0, 10 do
+			spawnEnemy(1, 490, 135, 0.1, 40, 20, i * 2)
+		end
+	end
+	
+	-- spawn random plasma
+	-- if (frame % 10 == 0) spawnPlasma(490, rndrange(40, 240))
+
+	-- spray test plasma
+	local sign = 1
+	if (rnd() < 0.5) sign = -1
+	if (frame % 400 == 20) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 

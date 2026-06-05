@@ -1,6 +1,6 @@
 function initEffects()
 	particles = {}
-	heatParticlesRate = 4
+	heatParticlesRate = 3
 	lastLaserHit = { pos = v2make(0, 0), time = -5 }
 	laserColors = { 3, 11, 11, 11, 27 }
 	cameraSplats = {} -- light blobs that stick to the camera briefly
@@ -15,6 +15,10 @@ function initEffects()
 	dotPatternThick = 0x1040
 	dotPatternMedium = 0x5A5A
 	dotPatternThin = 0xFFFE
+	dotPatternChecker = 0x33CC
+	dotPatternScanlines = 0xF0F
+	dotPatternScanLinesThick = 0xFF
+	dotPatternScanLinesDiagonal = 0x6C93
 end
 
 function updateEffects()
