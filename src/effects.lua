@@ -13,15 +13,15 @@ function initEffects()
 	blend_inverse = 45
 	blend_magfield = 47
 	dotPatternThick = 0x1040
-	dotPatternThin = 0x5A5A
-	dotPatternVeryThin = 0xFFFE
+	dotPatternMedium = 0x5A5A
+	dotPatternThin = 0xFFFE
 end
 
 function updateEffects()
 	if (frame % heatParticlesRate == 0) then
 		-- spawn heat particles around payload
-		spawnPoint = v2add(payload.pos, v2scale(scrollDirection, - 0.25))
-		offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.03, 0.03))
+		local spawnPoint = v2add(payload.pos, v2scale(scrollDirection, - 0.25))
+		local offset = v2scale(v2rotate(scrollDirection, 90), rndrange(-0.03, 0.03))
 		spawnParticleWithForce(v2add(spawnPoint, offset), offset, 1, rndrange(10, 40), { 7, 10, 25 }, 2, v2scale(scrollDirection, 0.002))
 	end
 
@@ -72,7 +72,7 @@ function drawEffects(layer)
 					for i = 1, #enemies do
 						if enemies[i] == e  and i < #enemies then
 							if enemies[i + 1].type == 1 then
-								fillp(dotPatternThin)
+								fillp(dotPatternMedium)
 								line(e.pos.x, e.pos.y, enemies[i + 1].pos.x, enemies[i + 1].pos.y, blend_bright)
 								fillp()
 							end
@@ -110,31 +110,49 @@ function drawLightingEffects()
 	end
 
 	-- lens flare
-	-- if player.shooting then
-	if player.shooting and (frame % 5 == 0 or frame % 5 == 2) then
-		local gunpos = v2make(player.pos.x + 22, player.pos.y - 1)
-		-- thin stripes
-		line(gunpos.x - 100, gunpos.y, gunpos.x + 100, gunpos.y, blend_bright)
-		line(gunpos.x - 20, gunpos.y - 30, gunpos.x + 20, gunpos.y + 30, blend_bright)
-		line(gunpos.x + 20, gunpos.y - 30, gunpos.x - 20, gunpos.y + 30, blend_bright)
-
-		rectfill(0, gunpos.y - 3, 480, gunpos.y + 3, blend_bright)
-
-		local flareVector = v2sub(gunpos, midpoint)
-		-- rounded boxes
-		rrectfill(gunpos.x - 50, gunpos.y - 2, 100, 5, 2, blend_bright) -- small horizontal
-		local segmentVector = v2scale(flareVector, 0.8)
-		rrectfill(midpoint.x + segmentVector.x - 100, midpoint.y + segmentVector.y - 10, 200, 20, 5, blend_bright) -- big horizontal
-
-		segmentVector = v2scale(flareVector, 0.8)
-		circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 5, blend_bright) -- small circle
-		segmentVector = v2scale(flareVector, 0.9)
-		circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 2, blend_bright) -- small circle
-		segmentVector = v2scale(flareVector, -1)
-		spr(254, midpoint.x + segmentVector.x - 32, midpoint.y + segmentVector.y - 32) -- hexagon
-		segmentVector = v2scale(flareVector, -1.2)
-		circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 3, blend_bright) -- small circle
+	if (frame % 5 == 0 or frame % 5 == 2) then
+		-- payload
+			local hotSpot = v2add(payload.pos, v2scale(scrollDirection, - 0.25))
+			lensFlare(hotSpot, false)
+		-- player
+		if player.shooting then
+			local gunpos = v2make(player.pos.x + 22, player.pos.y - 1)
+			lensFlare(gunpos, true)		
+		end
+		
 	end
+end
+
+function lensFlare(pos, big)
+	-- thin stripes
+	line(pos.x - 100, pos.y, pos.x + 100, pos.y, blend_bright)
+	line(pos.x - 40, pos.y - 60, pos.x + 40, pos.y + 60, blend_bright)
+	line(pos.x + 40, pos.y - 60, pos.x - 40, pos.y + 60, blend_bright)
+	line(pos.x - 50, pos.y, pos.x + 50, pos.y, blend_bright)
+	line(pos.x - 20, pos.y - 30, pos.x + 20, pos.y + 30, blend_bright)
+	line(pos.x + 20, pos.y - 30, pos.x - 20, pos.y + 30, blend_bright)
+	
+	local flareVector = v2sub(pos, midpoint)
+	segmentVector = v2scale(flareVector, 0.6)
+	circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 5, blend_bright) -- small circle - close
+	segmentVector = v2scale(flareVector, 0.9)
+	circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 2, blend_bright) -- small circle - close
+	segmentVector = v2scale(flareVector, -0.2)
+	circfill (midpoint.x + segmentVector.x, midpoint.y + segmentVector.y, 3, blend_bright) -- small circle - far
+	segmentVector = v2scale(flareVector, -1)
+	local hexSize = 64
+	if (not big) hexSize = 32
+	sspr(254, 0, 0, 64, 64, midpoint.x + segmentVector.x - hexSize / 2, midpoint.y + segmentVector.y - hexSize / 2, hexSize, hexSize) -- hexagon
+
+	if (not big) return
+
+	-- large horizontal strip
+	rectfill(0, pos.y - 3, 480, pos.y + 3, blend_bright)
+
+	-- rounded boxes
+	rrectfill(pos.x - 50, pos.y - 2, 100, 5, 2, blend_bright) -- small horizontal
+	local segmentVector = v2scale(flareVector, 0.8)
+	rrectfill(midpoint.x + segmentVector.x - 100, midpoint.y + segmentVector.y - 10, 200, 20, 5, blend_bright) -- big horizontal
 end
 
 function spawnParticleWithForce(_pos, _vel, _drag, _lifespan, _colors, _tail, _force )
@@ -208,4 +226,22 @@ end
 function animate(sprite)
 	sprite.currentFrame += sprite.playSpeed
 	if (sprite.currentFrame >= #sprite.frames + 1) sprite.currentFrame = 1
+end
+
+-- draw a rotated elipse
+function elipse (x, y, w, h, verts, angle, col, fraction)
+	fraction = fraction or 1 -- fraction is an optional variable, 1/fraction of the total elipse is drawn
+	line()
+	points = {}
+	local px, py
+ 	for i=0, verts do
+		-- calculate ellipse
+		px = cos(i / fraction / verts) * w
+		py = sin(i / fraction / verts) * h
+		-- rotate points
+		local pxrotated = px * cos(angle) - py * sin(angle)
+		local pyrotated = py * cos(angle) + px * sin(angle)
+		-- draw points
+		line(x + pxrotated, y + pyrotated, col)
+ 	end
 end

@@ -44,31 +44,19 @@ function _draw()
 	drawPlasmaLower()
 	drawPayloadLower()
 	distortScreen()
+	drawLogo()
 	drawMagneticFields("lower")
 	drawEffects("lower")
 	copyScreenToMemory()
 	drawMagneticFields("upper")
 	drawPayload()
-	drawEnemies()
 	drawPlayer()
 	drawEffects("upper") -- called again to draw particles on top of sprites
 	drawPlasmaUpper()
+	drawEnemies()
 	drawLightingEffects()
 	drawHud()
-	-- framerate display
-	if (frame % 30 == 0) cpuLoad = string.format("%.0f", stat(1) * 100)
-	rectfill(436, 0, 480, 10, bgColor)
-	print("CPU:"..cpuLoad.."%", 437, 2, 40)
-
-	-- color table test
-	-- local mousex, mousey = mouse()
-	-- circfill(mousex, mousey, 30, blend_bright)
-	-- circfill(mousex + 150, mousey, 30, blend_inverse)
-
-	-- test fillp
-	-- fillp(0xA5A5)
-	-- circfill(100, 100, 50, 2)
-	-- fillp()
+	-- drawCPU()
 end
 
 function restoreScreenFromMemory()
@@ -170,5 +158,51 @@ function setupColorTableFromSprite()
 	local colorTableSprite = get_spr(255)
 	memmap(colorTableSprite, 0x8000)
 	poke(0x550b, 63) -- set target mask to all 1s to allow shapes to use the color table
+end
+
+function drawCPU()
+	if (frame % 30 == 0) cpuLoad = string.format("%.0f", stat(1) * 100)
+	rectfill(436, 0, 480, 10, bgColor)
+	print("CPU:"..cpuLoad.."%", 437, 2, 40)
+end
+
+function drawLogo()
+	local left = 10
+	local top = 10
+	local spacing = 5
+	local shadowOffset = 3
+	local c, h, r, o, m, s, p, e = 31, 35, 35, 33, 36, 31, 34, 32
+	-- drop shadow
+	pal(53, 57) -- swap yellow for shade
+	left += shadowOffset
+	top += shadowOffset
+	spr(64, left, top)
+	spr(65, left + spacing + c, top)
+	spr(66, left + spacing * 2 + c + h, top)
+	spr(67, left + spacing * 3 + c + h + r, top)
+	spr(68, left + spacing * 4 + c + h + r + o, top)
+	spr(67, left + spacing * 5 + c + h + r + o + m, top)
+	spr(69, left + spacing * 6 + c + h + r + o + m + o, top)
+	spr(70, left + spacing * 7 + c + h + r + o + m + o + s, top)
+	spr(65, left + spacing * 8 + c + h + r + o + m + o + s + p, top)
+	spr(71, left + spacing * 9 + c + h + r + o + m + o + s + p + h, top)
+	spr(66, left + spacing * 10 + c + h + r + o + m + o + s + p + h + e, top)
+	spr(71, left + spacing * 11 + c + h + r + o + m + o + s + p + h + e + r, top)
+	-- yellow text
+	pal(53, 53) -- swap yellow for shade
+	left -= shadowOffset
+	top -= shadowOffset
+	spr(64, left, top)
+	spr(65, left + spacing + c, top)
+	spr(66, left + spacing * 2 + c + h, top)
+	spr(67, left + spacing * 3 + c + h + r, top)
+	spr(68, left + spacing * 4 + c + h + r + o, top)
+	spr(67, left + spacing * 5 + c + h + r + o + m, top)
+	spr(69, left + spacing * 6 + c + h + r + o + m + o, top)
+	spr(70, left + spacing * 7 + c + h + r + o + m + o + s, top)
+	spr(65, left + spacing * 8 + c + h + r + o + m + o + s + p, top)
+	spr(71, left + spacing * 9 + c + h + r + o + m + o + s + p + h, top)
+	spr(66, left + spacing * 10 + c + h + r + o + m + o + s + p + h + e, top)
+	spr(71, left + spacing * 11 + c + h + r + o + m + o + s + p + h + e + r, top)
 end
 

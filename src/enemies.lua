@@ -89,17 +89,17 @@ function updateEnemies()
 	-- test enemy spawns
 	
 	-- type 0 enemy wave
-	if (frame % 450 == 10) then
-		local randomY = rndrange(50, 170) -- higher top value because they always start curving down
-		local randomX = rndrange(520, 700) -- further off screen so they sometimes enter curving up
-		for i = 6, 1, -1 do
-			spawnEnemy(0, randomX, randomY, -0.8, 0.002, 0.4, i * 30)
-		end
-	end
+	-- if (frame % 450 == 10) then
+	-- 	local randomY = rndrange(50, 170) -- higher top value because they always start curving down
+	-- 	local randomX = rndrange(520, 700) -- further off screen so they sometimes enter curving up
+	-- 	for i = 5, 1, -1 do
+	-- 		spawnEnemy(0, randomX, randomY, -0.8, 0.002, 0.4, i * 30)
+	-- 	end
+	-- end
 
 	-- type 1 enemy clump
 	-- if frame % 700 == 60 then
-	-- 	for i = 0, 6 do
+	-- 	for i = 0, 10 do
 	-- 		spawnEnemy(1, 490, 135, 0.1, 40, 20, i * 2)
 	-- 	end
 	-- end

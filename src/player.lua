@@ -145,13 +145,13 @@ function drawMagneticFields(layer)
 
 			if layer == "lower" then
 				if (i == magfield.steps - 1) then
-					roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 57)
-					roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 57)
+					elipse(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, 57)
+					elipse(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, 57)
 				end
 			else
 				-- field lines use color table to create inverse colors
-				roval(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, blend_magfield)
-				roval(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, blend_magfield)
+				elipse(magfield.positions[i].x, magfield.positions[i].y, lengthOfOffset, 4 + magfield.heightScale * lengthOfOffset, 6 + i * magfield.vertsScale, angle, blend_magfield)
+				elipse(magfield.positions2[i].x, magfield.positions2[i].y, lengthOfOffset2, 4 + magfield.heightScale * lengthOfOffset2, 6 + i * magfield.vertsScale, angle2, blend_magfield)
 			end
 		end
 		-- debug draw collider
@@ -239,23 +239,4 @@ function playerLoseHP(amount)
 	player.currentHP -= amount
 	player.currentHP = max(player.currentHP, 0)
 	player.takingDamage = true
-end
-
--- magnetic field effects
-
--- draw a rotated oval
-function roval (x, y, w, h, verts, angle, col)
-	line()
-	points = {}
-	local px, py
- 	for i=0,verts do
-		-- calculate ellipse
-		px = cos(i / verts) * w
-		py = sin(i / verts) * h
-		-- rotate points
-		local pxrotated = px * cos(angle) - py * sin(angle)
-		local pyrotated = py * cos(angle) + px * sin(angle)
-		-- draw points
-		line(x + pxrotated, y + pyrotated, col)
- 	end
 end
