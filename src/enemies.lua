@@ -3,7 +3,7 @@ function initEnemies()
 end
 
 function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
-	if _type == 0 then
+	if _type == 0 then -- ripple/wave
 		newEnemy = {
 			pos = { x = _x, y = _y }, 
 			radius = 16, 
@@ -33,7 +33,7 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 			end
 		}
 		newEnemy.currentFrame = rnd(#newEnemy.frames - 1)
-	elseif _type == 1 then
+	elseif _type == 1 then -- swarm
 		newEnemy = {
 			pos = { x = _x + rnd(20), y = _y + rndrange(-20, 20)},
 			target = { x = _x, y = _y },
@@ -57,7 +57,7 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 						local vectorToPayload = v2scale(v2normalize(v2sub(payload.pos, self.target)), self.amplitude)
 						self.target = v2add(self.target, vectorToPayload)
 					else
-						self.target = v2add(self.target, v2scale(v2randomnormalized(), rndrange(self.amplitude/2, self.amplitude))) -- random jump
+						self.target = v2add(self.target, v2scale(v2randomnormalized(), rndrange(self.amplitude / 2, self.amplitude))) -- random jump
 						if (self.target.y < 30) self.target.y += 30 -- avoid edges
 						if (self.target.y > 240) self.target.y -= 30
 						if (self.target.x < payload.pos.x) self.target.x += 10
@@ -66,14 +66,55 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 					local sprayVector = v2normalize(v2sub(self.pos, self.target))
 					spawnParticle(self.pos, v2scale(sprayVector, 2), 0.90, 20, { 49, 50, 51 }, 0.5)
 				end
-		
-	
 			end,
 			draw = function(self)
 				local sprite = 24
 				if (self.pos.x - self.target.x > 1) sprite = 25
 				if (self.pos.x - self.target.x < -1) sprite = 26			
 				spr(sprite, self.pos.x - 16, self.pos.y - 16)
+			end
+		}
+	elseif _type == 2 then -- miniboss
+		newEnemy = {
+			targetX = _x,
+			targetY = _y,
+			pos = { x = 0, y = 0 },
+			radius = 10,
+			hitPoints = 100,
+			damaged = 0,
+			speed = _speed,
+			frequency = _frequency,
+			amplitude = _amplitude,
+			delay = _delay,
+			emitter1Pos = { x = 0, y = 0 },
+			emitter2Pos = { x = 0, y = 0 },
+			fireRate = 20,
+			move = function(self)
+				self.pos = { x = self.targetX + sin(t() * self.frequency) * 10, y = self.targetY + cos(t() * self.frequency * 2) * self.amplitude }
+				-- self.pos = { x = self.targetX + sin(t() * self.frequency) * 10, y = self.targetY } -- still version
+				self.emitter1Pos = { x = self.pos.x - 30 + cos(t() * 0.25) * 5, y = self.pos.y + sin(t() * 0.25) * 30 }
+				self.emitter2Pos = { x = self.pos.x - 30 - cos(t() * 0.25) * 5, y = self.pos.y - sin(t() * 0.25) * 30 }
+
+				-- shoot plasma
+				if frame % self.fireRate == 0 then
+					-- emitter1
+					local newPlasma = createSinglePlasma(1, 8)
+					newPlasma.vel = { x = -0.8, y = 0 }
+					newPlasma.vel = v2rotate(newPlasma.vel, sin(t() * 0.05) * 10)
+					newPlasma.pos = v2make(self.emitter1Pos.x, self.emitter1Pos.y)
+					add(plasmaField, newPlasma)
+					-- emitter2
+					newPlasma = createSinglePlasma(-1, 8)
+					newPlasma.vel = { x = -0.8, y = 0 }
+					newPlasma.vel = v2rotate(newPlasma.vel, sin(t() * 0.05) * -10)
+					newPlasma.pos = v2make(self.emitter2Pos.x, self.emitter2Pos.y)
+					add(plasmaField, newPlasma)
+				end
+			end,
+			draw = function(self)
+				circfill (self.pos.x, self.pos.y, self.radius, 35) -- body
+				circfill (self.emitter1Pos.x, self.emitter1Pos.y, 5, 36) -- emitter1
+				circfill (self.emitter2Pos.x, self.emitter2Pos.y, 5, 36) -- emitter2
 			end
 		}
 	end

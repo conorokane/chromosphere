@@ -33,6 +33,8 @@ function drawPayload()
 	end
 	-- payload graphics
 	circfill(payload.pos.x, payload.pos.y, payload.radius, blend_payload)
+	circfill(payload.pos.x + 8, payload.pos.y - 8, payload.radius / 2, 38)
+	circfill(payload.pos.x + 8, payload.pos.y - 8, payload.radius / 4, 39)
 
 	-- upper half of elipses
 	for i = 5, 0, - 1 do

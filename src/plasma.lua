@@ -63,15 +63,21 @@ function drawPlasmaLower()
 	-- draw background plasma balls
 	for p in all(plasmaField) do
 		-- large outer circles fall behind with velocity with 2 smaller inner circles
+		local plasmaColor = p.color + 1
+		if p.beingPushed > 0 then -- change color when pushed
+			plasmaColor = p.color
+		end
 		for i = 1, 3 do
-			circfill(p.pos.x + rndrange(-3 - i, 3 + i), p.pos.y + rndrange(-3 - i, 3 + i), p.radius + 2 - i, p.color + 1)
+			circfill(p.pos.x + rndrange(-3 - i, 3 + i), p.pos.y + rndrange(-3 - i, 3 + i), p.radius + 2 - i, plasmaColor)
 		end
 	end
 
 	-- draw bright foreground plasma balls behind the magnetic field lines (part of distortion layer)
 	for p in all(plasmaField) do
 		local plasmaColor = p.color
-		if (p.beingPushed > 0) plasmaColor = 7 
+		if p.beingPushed > 0 then -- change color when pushed
+			plasmaColor = p.color + 1
+		end
 		for i = 1, 3 do
 			local position = v2sub(p.pos, v2scale(p.vel, 4 * i))
 			circfill(position.x, position.y, p.radius - i, plasmaColor)
@@ -115,31 +121,27 @@ function drawPlasmaUpper()
 	-- draw bright foreground plasma balls in front of the magnetic field lines
 	for p in all(plasmaField) do
 		local plasmaColor = p.color
-		if (p.beingPushed > 0) plasmaColor = 7 -- bright white when pushed
+		if p.beingPushed > 0 then -- change color when pushed
+			plasmaColor = p.color + 1
+		end
 		circfill(p.pos.x, p.pos.y, p.radius, plasmaColor)
 	end
-end
-
-function spawnPlasma(xPos, yPos)
-	local newPlasma = createSinglePlasma(rnd({ -1, 1}))
-	newPlasma.vel = { x = -0.8, y = rndrange(-0.5, 0.5) }
-	newPlasma.pos = { x = xPos, y = yPos }
-	add(plasmaField, newPlasma)
 end
 
 -- sprays a solar flare of similarly charged plasma from off-screen
 function sprayPlasma(direction, count, _charge, spread)
 	spawnPoint = v2sub( screenCenter, v2scale(direction, 300))
 	for i = 1, count do
-		local newPlasma = createSinglePlasma(_charge)
+		local newPlasma = createSinglePlasma(_charge, rndrange(4, 12))
 		newPlasma.vel = v2scale(v2rotate(direction, i * spread), 0.4 - sin(i/count/2) * 0.3 - sin(i/count/4) * 0.3)
 		newPlasma.pos = spawnPoint
 		add(plasmaField, newPlasma)
 	end
 end
 
-function createSinglePlasma(_charge)
-	local newPlasma = { vel = { v2zero }, pos = { v2zero }, color = plasmaColorPositive, life = 0, lifespan = rndrange(900, 1500), charge = _charge, radius = rndrange(4, 12), onScreen = false, beingPushed = 0 }
+-- charge 1 or -1
+function createSinglePlasma(_charge, _radius)
+	local newPlasma = { vel = { v2zero }, pos = { v2zero }, color = plasmaColorPositive, life = 0, lifespan = rndrange(900, 1500), charge = _charge, radius = _radius, onScreen = false, beingPushed = 0 }
 	if (_charge == -1) newPlasma.color = plasmaColorNegative
 	return newPlasma
 end

@@ -26,6 +26,9 @@ function initGame()
 	screenBounds = {left = 8, right = 472, top = 8, bottom = 262}
 	frame = 0
 	setupColorTableFromSprite()
+
+	-- type 2 enemy
+	spawnEnemy(2, 430, 135, 1, 0.03, 30, 0)
 end
 
 function _update()
@@ -46,7 +49,7 @@ function _draw()
 	drawPlasmaLower()
 	drawPayloadLower()
 	distortScreen()
-	drawLogo()
+	-- drawLogo()
 	drawMagneticFields("lower")
 	drawEffects("lower")
 	copyScreenToMemory()
@@ -58,7 +61,7 @@ function _draw()
 	drawEnemies()
 	drawLightingEffects()
 	drawHud()
-	-- drawCPU()
+	drawCPU()
 end
 
 function restoreScreenFromMemory()
@@ -212,27 +215,24 @@ function testSpawns()
 	-- test enemy spawns
 	
 	-- type 0 enemy wave
-	if (frame % 450 == 10) then
-		local randomY = rndrange(50, 170) -- higher top value because they always start curving down
-		local randomX = rndrange(520, 700) -- further off screen so they sometimes enter curving up
-		for i = 5, 1, -1 do
-			spawnEnemy(0, randomX, randomY, -0.8, 0.002, 0.4, i * 30)
-		end
-	end
+	-- if (frame % 450 == 10) then
+	-- 	local randomY = rndrange(50, 170) -- higher top value because they always start curving down
+	-- 	local randomX = rndrange(520, 700) -- further off screen so they sometimes enter curving up
+	-- 	for i = 5, 1, -1 do
+	-- 		spawnEnemy(0, randomX, randomY, -0.8, 0.002, 0.4, i * 30)
+	-- 	end
+	-- end
 
 	-- type 1 enemy clump
-	if frame % 700 == 60 then
+	if frame % 800 == 60 then
 		for i = 0, 10 do
 			spawnEnemy(1, 490, 135, 0.1, 40, 20, i * 2)
 		end
 	end
-	
-	-- spawn random plasma
-	-- if (frame % 10 == 0) spawnPlasma(490, rndrange(40, 240))
 
 	-- spray test plasma
-	local sign = 1
-	if (rnd() < 0.5) sign = -1
-	if (frame % 400 == 20) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
+	-- local sign = 1
+	-- if (rnd() < 0.5) sign = -1
+	-- if (frame % 400 == 20) sprayPlasma(v2randominrange(120, 180), rndrange(15, 25), sign, rndrange(1, 1.5))
 end
 
