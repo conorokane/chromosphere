@@ -7,9 +7,13 @@ function initPlasma()
 	plasmaColorNegative = 48
 	plasmaPushForce = 0.005
 	bgColor = 56
+	plasmaCap = 60 -- maximum number of plasma particles
 end
 
 function updatePlasma()
+	if #plasmaField > plasmaCap then -- limit plasma count
+		del(plasmaField, plasmaField[1]) -- remove oldest plasma
+	end
 	for p in all(plasmaField) do
 		v2simulatefast(p)
 		p.beingPushed -= 1 -- count down
