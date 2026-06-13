@@ -86,14 +86,17 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 			frequency = _frequency,
 			amplitude = _amplitude,
 			delay = _delay,
+			frames = { 72, 73, 74, 75 },
+			playSpeed = 0.15,
+			currentFrame = 1,
 			emitter1Pos = { x = 0, y = 0 },
 			emitter2Pos = { x = 0, y = 0 },
 			fireRate = 20,
 			move = function(self)
 				self.pos = { x = self.targetX + sin(t() * self.frequency) * 10, y = self.targetY + cos(t() * self.frequency * 2) * self.amplitude }
 				-- self.pos = { x = self.targetX + sin(t() * self.frequency) * 10, y = self.targetY } -- still version
-				self.emitter1Pos = { x = self.pos.x - 30 + cos(t() * 0.25) * 5, y = self.pos.y + sin(t() * 0.25) * 30 }
-				self.emitter2Pos = { x = self.pos.x - 30 - cos(t() * 0.25) * 5, y = self.pos.y - sin(t() * 0.25) * 30 }
+				self.emitter1Pos = { x = self.pos.x - 30 + cos(t() * 0.25) * 10, y = self.pos.y + sin(t() * 0.25) * 30 }
+				self.emitter2Pos = { x = self.pos.x - 30 - cos(t() * 0.25) * 10, y = self.pos.y - sin(t() * 0.25) * 30 }
 
 				-- shoot plasma
 				if frame % self.fireRate == 0 then
@@ -101,18 +104,19 @@ function spawnEnemy(_type, _x, _y, _speed, _frequency, _amplitude, _delay)
 					local newPlasma = createSinglePlasma(1, 8)
 					newPlasma.vel = { x = -0.8, y = 0 }
 					newPlasma.vel = v2rotate(newPlasma.vel, sin(t() * 0.05) * 10)
-					newPlasma.pos = v2make(self.emitter1Pos.x, self.emitter1Pos.y)
+					newPlasma.pos = v2make(self.emitter1Pos.x - 8, self.emitter1Pos.y)
 					add(plasmaField, newPlasma)
 					-- emitter2
 					newPlasma = createSinglePlasma(-1, 8)
 					newPlasma.vel = { x = -0.8, y = 0 }
 					newPlasma.vel = v2rotate(newPlasma.vel, sin(t() * 0.05) * -10)
-					newPlasma.pos = v2make(self.emitter2Pos.x, self.emitter2Pos.y)
+					newPlasma.pos = v2make(self.emitter2Pos.x - 8, self.emitter2Pos.y)
 					add(plasmaField, newPlasma)
 				end
 			end,
 			draw = function(self)
-				circfill (self.pos.x, self.pos.y, self.radius, 35) -- body
+				animate(self)
+				spr(self.frames[flr(self.currentFrame)], self.pos.x - 32, self.pos.y -16)
 				circfill (self.emitter1Pos.x, self.emitter1Pos.y, 5, 36) -- emitter1
 				circfill (self.emitter2Pos.x, self.emitter2Pos.y, 5, 36) -- emitter2
 			end

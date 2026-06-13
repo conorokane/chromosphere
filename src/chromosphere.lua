@@ -40,7 +40,7 @@ function _update()
 	updateEnemies()
 	updatePlayer()
 
-	testSpawns()
+	-- testSpawns()
 end
 
 function _draw()
@@ -49,7 +49,7 @@ function _draw()
 	drawPlasmaLower()
 	drawPayloadLower()
 	distortScreen()
-	-- drawLogo()
+	drawLogo()
 	drawMagneticFields("lower")
 	drawEffects("lower")
 	copyScreenToMemory()
@@ -107,17 +107,17 @@ function dissolveScreen()
 			fillColor = pixelColor + 1
 		elseif	pixelColor == blend_payload then
 			fillColor = blend_payload
-			fillp(dotPatternThick)
-	  	end
-
+		end
+		
 		if fillColor == blend_payload then
+			fillp(dotPatternThick)
 			-- offset circle position to make payload trail move with the scroll direction
 			local fillPos = v2add(v2make(x, y), v2scale(scrollDirection, 0.15))
-			circfill(fillPos.x, fillPos.y, rndrange(1, 4), fillColor)
+			circfill(fillPos.x, fillPos.y, rndrange(1, 3), fillColor)
+			fillp() -- reset fill pattern
 		else
   			circfill(x, y, circleRadius, fillColor)
 		end
-		fillp() -- reset fill pattern
 	end
 end
 

@@ -33,7 +33,7 @@ function updatePlasma()
 		if player.magfieldsActive then
 			for i = 1, #magfield.colliders do
 				if v2proximity(p.pos, magfield.colliders[i], magfield.colliderSize) then
-					p.beingPushed = 10 -- counts down for a few frames
+					p.beingPushed = 5 -- counts down for a few frames
 					p.vel = v2rotate(p.vel, p.charge * magfield.strength[i] / p.radius)
 					-- push back on player
 					local pushVector = v2rotate(v2normalize(p.vel), -90 * p.charge)
